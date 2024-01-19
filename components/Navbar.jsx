@@ -1,13 +1,20 @@
 'use client'
 import { Button } from "@/components/ui/button"
 import ThemeButton from "./ThemeButton"
-import { useRef, useState } from "react"
+import {useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import {useDispatch, useSelector } from "react-redux"
 import { IoClose } from "react-icons/io5";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { clearCart, increaseItemQuantity, setCartFromLocalStorage } from "@/app/redux/features/Cartslice"
 
 export default function Component() {
+
+  const dispatch = useDispatch();
+
+  const Items = useSelector((state) => state.cart.items);
+  const PriceCount = useSelector((state) => state.cart.total);
 
   const [toggle, setToggle] = useState(false);
   const [cartVisible, setCartVisible] = useState(false);
@@ -17,14 +24,31 @@ export default function Component() {
     setCartVisible((prevCartVisible) => !prevCartVisible);
   }
 
-
   const toggleSearch = () => {
     setSearchVisible((prevSearchVisible) => !prevSearchVisible);
   };
 
-
   const toggleNav = () => {
     setToggle((toggle) => !toggle)
+  }
+
+  const handleClearCart = () => {
+    dispatch(clearCart())
+    localStorage.removeItem("cart");
+  }
+
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      const parsedCart = JSON.parse(savedCart);
+      dispatch(setCartFromLocalStorage(parsedCart));
+    }
+  }, []);
+
+  const handleIncreaseQuanity = (item) => {
+  }
+
+  const handleDecreaseQuanity = (item) => {
   }
 
   return (
@@ -197,34 +221,40 @@ export default function Component() {
           <UserIcon className="text-[#bd1e59]" />
         </div>
       </div>
-      <div className={`CartSidebar h-full z-[100] transition-transform ${cartVisible ? 'hidden' : 'block'} w-72 transform absolute top-0 right-0 dark:bg-[#374151] py-10 px-8 bg-[#FDF2F8]`}>
+      <div className={`CartSidebar h-screen fixed z-[100] transition-transform ease-in-out delay-1000 duration-1000 ${cartVisible ? 'hidden' : 'block'} w-72 transform top-0 right-0 dark:bg-[#374151] py-10 px-8 bg-[#FDF2F8]`}>
         <h2 className="font-bold text-xl text-center dark:text-white text-black mb-4">Shopping Cart</h2>
         <span onClick={toggleCart} className="absolute right-2 top-5 cursor-pointer text-2xl text-[#bd1e59]"><IoClose /></span>
         <ol className="list-decimal font-semibold">
-          <li>
+          {Items.length!=0 && Items.map((item) =>  <li key={item.id}>
             <div className="item flex my-5">
-              <div className="w-2/3 font-semibold">Tshirt - Wear the Code</div>
+              <div className="w-2/3 font-semibold">{item.name}</div>
               <div className="flex font-semibold text-lg items-center justify-center w-1/3">
                 <span className="w-4">
-                  <FaMinus className="cursor-pointer text-[#DB2777] inline-flex items-center justify-center rounded-full" />
-                </span> 
-                <span className="mx-2">1</span> 
+                  <FaMinus onClick={handleIncreaseQuanity(item)} className="cursor-pointer text-[#DB2777] inline-flex items-center justify-center rounded-full" />
+                </span>
+                <span className="mx-2">{item.quantity}</span>
                 <span className="w-4">
-                  <FaPlus className="cursor-pointer inline-flex items-center justify-center rounded-full text-[#DB2777]" />
+                  <FaPlus onClick={handleDecreaseQuanity(item)} className="cursor-pointer inline-flex items-center justify-center rounded-full text-[#DB2777]" />
                 </span>
               </div>
             </div>
-          </li>
+          </li>)}
         </ol>
-        <div className="flex items-center space-x-2 justify-center">
+        {Items.length!=0 ? <div className="flex items-center justify-between">
+          <p className="text-xl dark:text-white text-black">Total Price: </p>
+          <p className="text-xl text-pink-500 font-bold dark:text-pink-600">₹ {PriceCount}</p>
+        </div> : <div>
+          <p className="text-xl font-bold dark:text-white text-black">Cart is Empty! Start shopping now</p></div>}
+        {Items.length!=0 && <div className="flex items-center space-x-2 justify-center">
           <Button className="bg-pink-600 dark:bg-pink-600 dark:hover:bg-[#bd1e59] dark:text-white text-white px-4 py-2 rounded-md text-base font-medium hover:bg-[#bd1e59] cursor-pointer mt-12">
-              Checkout
+            Checkout
           </Button>
-          <Button className="bg-pink-600 dark:bg-pink-600 dark:hover:bg-[#bd1e59] dark:text-white text-white px-4 py-2 rounded-md text-base font-medium hover:bg-[#bd1e59] cursor-pointer mt-12">
-              Clear
+          <Button onClick={handleClearCart} className="bg-pink-600 dark:bg-pink-600 dark:hover:bg-[#bd1e59] dark:text-white text-white px-4 py-2 rounded-md text-base font-medium hover:bg-[#bd1e59] cursor-pointer mt-12">
+            Clear Cart
           </Button>
-        </div>
-      </div>  
+        </div>}
+      </div>
+
     </>
   )
 }

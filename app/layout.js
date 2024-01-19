@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
+import Provider from './redux/provider'
 import Providers from './providers'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
@@ -15,13 +16,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
         <body className={inter.className}>
-          <Providers>
-            <Navbar />
-              <main className='w-full dark:bg-[#111827]'>
-                {children}
-              </main>
-            <Footer />
-          </Providers>
+          <Provider>
+            <Providers>
+              <Navbar />
+                <main className='w-full dark:bg-[#111827]'>
+                  {children}
+                </main>
+              <Footer />
+            </Providers>
+          </Provider>
         </body>
       </html>
   )

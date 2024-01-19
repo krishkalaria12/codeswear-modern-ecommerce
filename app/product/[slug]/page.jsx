@@ -3,18 +3,22 @@ import { useParams} from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import ProductImage from "@/components/ProductImage"
+import Image from "next/image"
+import { addItem } from "@/app/redux/features/Cartslice"
+import { UseDispatch, useDispatch } from "react-redux"
 import { useState } from "react"
 
 function Product() {
-    const pathname = useParams()
-    const [pin,setPin] = useState()
-    const [ServiceAvailability, setServiceAvailability] = useState()
-    const {slug} = pathname
+    const pathname = useParams();
+    const [pin,setPin] = useState();
+    const dispatch = useDispatch();
+    const [ServiceAvailability, setServiceAvailability] = useState();
+    const {slug} = pathname;
 
     const onchangePin = (e) => {
         setPin(e.target.value)
     }
-
+    
     const checkServiceAvailability = async () => {
         try {
             const response = await fetch("http://localhost:3000/api/pincode");
@@ -23,13 +27,26 @@ function Product() {
             if (pinjson.includes(parseInt(pin))) {
                 setServiceAvailability(true);
             } else {
-                console.log(pin);
                 setServiceAvailability(false);
             }
         } catch (error) {
             console.error("Error fetching data:", error);
         }
     };
+    
+        const product = {
+            id: slug, 
+            name: "Good Vibes Hoodie",
+            price: 999, 
+            discountedPrice: 799,
+            color: "Black", 
+            size: "s", 
+            quanity: 1
+        };
+
+    const handleCart = () => {
+        dispatch(addItem({product}))
+    }
 
     return (
         <div className="dark:bg-gray-900 dark:text-white bg-white text-black">
@@ -43,7 +60,7 @@ function Product() {
                         <ProductImage />
                     </div>
                     <div className="mb-6">
-                        <img
+                        <Image
                         alt="Good Vibes Hoodie"
                         className="rounded-lg h-[700px] w-[700px] dark:border-gray-700 border-gray-300"
                         height="800"
@@ -57,7 +74,7 @@ function Product() {
                     </div>
                 </div>
                 <div className="w-full lg:w-2/3 px-4">
-                    <h1 className="text-3xl font-bold mb-2">Good Vibes Hoodie (S/Black)</h1>
+                    <h1 className="text-3xl font-bold mb-2">{product.name} ({product.size}/{product.color})</h1>
                     <h2 className="text-xl mb-6">Product Description:</h2>
                     <p className="mb-4">
                     Embrace positivity and style with the "Good Vibes Hoodie." This cozy and uplifting hoodie is designed to
@@ -113,8 +130,8 @@ function Product() {
                         </div>
                         <div className="flex space-x-2">
                             <div
-                                className="text-3xl font-semibold line-through text-gray-500 dark:text-gray-400">₹1200</div>
-                            <div className="text-5xl font-bold text-pink-400 dark:text-[#DB2777]">₹799</div>
+                                className="text-3xl font-semibold line-through text-gray-500 dark:text-gray-400">{product.price}</div>
+                            <div className="text-5xl font-bold text-pink-400 dark:text-[#DB2777]">{product.discountedPrice}</div>
                             <div className="text-lg text-gray-500 dark:text-gray-400">(Free Shipping)</div>
                             </div>
                         </div>
@@ -139,7 +156,7 @@ function Product() {
                                 Buy Now
                                 </Button>
                                 <Button
-                                className="text-black dark:text-white bg-pink-400 hover:bg-[#DB2777] dark:bg-[#DB2777] dark:hover:bg-pink-400 rounded-full">
+                                className="text-black dark:text-white bg-pink-400 hover:bg-[#DB2777] dark:bg-[#DB2777] dark:hover:bg-pink-400 rounded-full" onClick={handleCart}>
                                 Add to Cart
                                 </Button>
                             </div>
