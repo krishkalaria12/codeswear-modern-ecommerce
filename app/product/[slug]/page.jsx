@@ -3,10 +3,34 @@ import { useParams} from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import ProductImage from "@/components/ProductImage"
+import { useState } from "react"
 
 function Product() {
     const pathname = useParams()
+    const [pin,setPin] = useState()
+    const [ServiceAvailability, setServiceAvailability] = useState()
     const {slug} = pathname
+
+    const onchangePin = (e) => {
+        setPin(e.target.value)
+    }
+
+    const checkServiceAvailability = async () => {
+        try {
+            const response = await fetch("http://localhost:3000/api/pincode");
+            const pinjson = await response.json();
+
+            if (pinjson.includes(parseInt(pin))) {
+                setServiceAvailability(true);
+            } else {
+                console.log(pin);
+                setServiceAvailability(false);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
     return (
         <div className="dark:bg-gray-900 dark:text-white bg-white text-black">
             <div className="container mx-auto px-6 py-12">
@@ -96,14 +120,19 @@ function Product() {
                         </div>
                         <div className="flex flex-col space-y-4">
                             <div className="flex items-center space-x-3">
-                                <Input
-                                className="w-64 dark:bg-[#1F2937] dark:border-gray-600 focus:outline-none focus:border-[#DB2777] dark:text-white"
-                                placeholder="Enter your Pincode" />
-                                <Button
+                            <Input onChange={onchangePin} className="w-64 dark:bg-[#1F2937] dark:border-gray-600 focus:outline-none focus:border-[#DB2777] dark:text-white" placeholder="Enter your Pincode" />
+                                <Button onClick={checkServiceAvailability}
                                 className="text-black dark:text-white bg-pink-400 hover:bg-[#DB2777] dark:bg-[#DB2777] dark:hover:bg-pink-400 rounded-full">
                                 Check
                                 </Button>
                             </div>
+                            {!ServiceAvailability  && ServiceAvailability!=null && 
+                            <div>
+                                <p className="text-red-500 text-xl dark:text-red-700">Sorry, We do not deliver to this pincode yet</p>
+                            </div> } 
+                            {ServiceAvailability && ServiceAvailability!=null && <div>
+                            <p className="text-green-500 text-xl dark:text-green-700">Yes , We do deliver at this Pincode</p>
+                            </div>}
                             <div className="flex space-x-4">
                                 <Button
                                 className="text-black dark:text-white bg-pink-400 hover:bg-[#DB2777] dark:bg-[#DB2777] dark:hover:bg-pink-400 rounded-full">
