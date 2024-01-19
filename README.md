@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+🛍️ **Codeswear - Next.js E-Commerce Store**
 
-## Getting Started
+Welcome to our Next.js-based e-commerce website! This project is a modern, scalable, and feature-rich online store built with Next.js, React, and other cutting-edge technologies. Whether you're a developer looking to learn or contribute, or a business owner seeking a robust e-commerce solution, this project has got you covered.
 
-First, run the development server:
+**Key Features:**
+- 🚀 **Next.js**: Utilizing the power of React and server-side rendering for optimal performance.
+- 💡 **Modular Components**: Well-organized and reusable React components for easy customization and maintenance.
+- 🎨 **Tailwind CSS**: A utility-first CSS framework for a sleek and responsive design.
+- 📦 **State Management**: Integrated with a state management solution for efficient data handling.
+- 🌐 **API Integration**: Seamless integration with external APIs for product data, payments, and more.
+- 🛒 **Shopping Cart**: A fully functional shopping cart with a smooth checkout process.
+- 🔒 **Authentication & Authorization**: Secure user authentication and authorization mechanisms.
+- 📊 **Analytics**: Integration with analytics tools to track user behavior and store performance.
+- 🌐 **Internationalization**: Support for multiple languages and currencies to cater to a global audience.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Prerequisites
+
+**Node version 18.7.x**
+
+### Cloning the repository
+
+```shell
+git clone https://github.com/AntonioErdeljac/next-auth-v5-advanced-guide.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install packages
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```shell
+npm i
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Available commands
 
-## Learn More
+Running commands with npm `npm run [command]`
 
-To learn more about Next.js, take a look at the following resources:
+| command         | description                              |
+| :-------------- | :--------------------------------------- |
+| `dev`           | Starts a development instance of the app |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Contributing:**
+Contributions are welcome! Feel free to open issues, submit pull requests, or suggest new features. Check out our [contributing guidelines](CONTRIBUTING.md) for more details.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**License:**
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Deploy on Vercel
+Happy coding and happy selling! 🚀🛒
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Feel free to customize it based on the specific features and technologies used in your Next.js e-commerce project.
