@@ -20,7 +20,7 @@ Welcome to our Next.js-based e-commerce website! This project is a modern, scala
 ### Cloning the repository
 
 ```shell
-git clone https://github.com/AntonioErdeljac/next-auth-v5-advanced-guide.git
+git clone https://github.com/krishkalaria12/codeswear-modern-ecommerce.git
 ```
 
 ### Install packages
