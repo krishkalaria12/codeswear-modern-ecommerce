@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import ProductImage from "@/components/ProductImage"
 import Image from "next/image"
-import { addItem } from "@/redux/features/Cartslice"
+import { useRouter } from 'next/navigation'
+import { addItem, clearCart } from "@/redux/features/Cartslice"
 import { useDispatch } from "react-redux"
 import { useState } from "react"
 
 function Product() {
     const pathname = useParams();
+    const router = useRouter()
     const [pin,setPin] = useState();
     const dispatch = useDispatch();
     const [ServiceAvailability, setServiceAvailability] = useState();
@@ -46,6 +48,12 @@ function Product() {
 
     const handleCart = () => {
         dispatch(addItem({product}))
+    }
+
+    const handleBuyNow = () => {
+        dispatch(clearCart());
+        dispatch(addItem({product}));
+        router.push('/checkout');
     }
 
     return (
@@ -151,7 +159,7 @@ function Product() {
                             <p className="text-green-500 text-xl dark:text-green-700">Yes , We do deliver at this Pincode</p>
                             </div>}
                             <div className="flex space-x-4">
-                                <Button
+                                <Button onClick={handleBuyNow}
                                 className="text-black dark:text-white bg-pink-400 hover:bg-[#DB2777] dark:bg-[#DB2777] dark:hover:bg-pink-400 rounded-full">
                                 Buy Now
                                 </Button>

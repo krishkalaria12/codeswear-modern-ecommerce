@@ -155,11 +155,11 @@ function Checkout() {
               </div>
               <div className="flex justify-between mb-2">
                 <span className="text-gray-900 dark:text-white">Shipping</span>
-                <span className="text-gray-900 dark:text-white">₹ 5.00</span>
+                <span className="text-gray-900 dark:text-white">₹ 50.0</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-900 dark:text-white">Taxes</span>
-                <span className="text-gray-900 dark:text-white">₹ 5.52</span>
+                <span className="text-gray-900 dark:text-white">₹ 40.0</span>
               </div>
             </div>
             <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">

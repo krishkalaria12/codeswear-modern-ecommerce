@@ -18,7 +18,7 @@ export default function Component() {
   const ItemCount = useSelector((state) => state.cart.itemTotal);
 
   const [toggle, setToggle] = useState(false);
-  const [cartVisible, setCartVisible] = useState(false);
+  const [cartVisible, setCartVisible] = useState(true);
   const [searchVisible, setSearchVisible] = useState(true);
 
   const toggleCart = () => {
