@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import ProductImage from "@/components/ProductImage"
 import Image from "next/image"
-import { addItem } from "@/app/redux/features/Cartslice"
-import { UseDispatch, useDispatch } from "react-redux"
+import { addItem } from "@/redux/features/Cartslice"
+import { useDispatch } from "react-redux"
 import { useState } from "react"
 
 function Product() {

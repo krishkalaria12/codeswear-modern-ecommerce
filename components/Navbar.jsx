@@ -7,7 +7,7 @@ import Link from "next/link"
 import {useDispatch, useSelector } from "react-redux"
 import { IoClose } from "react-icons/io5";
 import { FaPlus, FaMinus } from "react-icons/fa";
-import { clearCart, increaseItemQuantity, setCartFromLocalStorage } from "@/app/redux/features/Cartslice"
+import { clearCart, increaseItemQuantity, setCartFromLocalStorage } from "@/redux/features/Cartslice"
 
 export default function Component() {
 
@@ -247,9 +247,11 @@ export default function Component() {
         </div> : <div>
           <p className="text-xl font-bold dark:text-white text-black">Cart is Empty! Start shopping now</p></div>}
         {Items.length!=0 && <div className="flex items-center space-x-2 justify-center">
-          <Button className="bg-pink-600 dark:bg-pink-600 dark:hover:bg-[#bd1e59] dark:text-white text-white px-4 py-2 rounded-md text-base font-medium hover:bg-[#bd1e59] cursor-pointer mt-12">
-            Checkout
-          </Button>
+          <Link href={"/checkout"}>
+            <Button className="bg-pink-600 dark:bg-pink-600 dark:hover:bg-[#bd1e59] dark:text-white text-white px-4 py-2 rounded-md text-base font-medium hover:bg-[#bd1e59] cursor-pointer mt-12">
+              Checkout
+            </Button>
+          </Link>
           <Button onClick={handleClearCart} className="bg-pink-600 dark:bg-pink-600 dark:hover:bg-[#bd1e59] dark:text-white text-white px-4 py-2 rounded-md text-base font-medium hover:bg-[#bd1e59] cursor-pointer mt-12">
             Clear Cart
           </Button>

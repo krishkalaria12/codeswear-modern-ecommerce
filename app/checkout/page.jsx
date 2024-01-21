@@ -1,11 +1,15 @@
+'use client'
 import Image from "next/image";
 import InputForm from "@/components/form/Input";
 import ButtonForm from "@/components/form/Button";
+import { useSelector } from "react-redux";
 
 function Checkout() {
+  const Items = useSelector((state) => state.cart.items);
+  const PriceTotal = useSelector((state) => state.cart.total);
   return (
     <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="dark:text-gray-200 mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Checkout For your Order
@@ -113,7 +117,7 @@ function Checkout() {
               Order summary
             </h2>
             <div className="space-y-4">
-              <div className="flex items-start justify-between">
+              {Items.length!=0 && Items.map((items) => (<div className="flex items-start justify-between" key={items.id}>
                 <Image
                   alt="Basic Tee Sienna"
                   className="h-16 w-16 object-cover"
@@ -126,35 +130,36 @@ function Checkout() {
                   width="64"
                 />
                 <div className="ml-4 flex-1">
-                  <p className="font-medium text-gray-900 dark:text-white">
-                    Basic Tee
+                  <p className="font-medium text-xl text-gray-900 dark:text-white">
+                    {items.name} ({items.size.toUpperCase()}/{items.color})
                   </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Sienna
-                  </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Large
-                  </p>
+                  <div className="flex space-x-2">
+                    <p className="text-base text-gray-600 dark:text-gray-400">
+                      Quantity: 
+                    </p>
+                    <p className="text-base text-gray-600 dark:text-gray-400">
+                      {(items.quantity)}
+                    </p>
+                  </div>
                 </div>
                 <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                  $32.00
+                ₹ {items.price}
                 </p>
-                <p className="ml-4">1</p>
                 <TrashIcon className="ml-4 h-5 w-5 text-gray-600 dark:text-gray-400" />
-              </div>
+              </div>))}
             </div>
             <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
               <div className="flex justify-between mb-2">
                 <span className="text-gray-900 dark:text-white">Subtotal</span>
-                <span className="text-gray-900 dark:text-white">$64.00</span>
+                <span className="text-gray-900 dark:text-white">₹   {PriceTotal}</span>
               </div>
               <div className="flex justify-between mb-2">
                 <span className="text-gray-900 dark:text-white">Shipping</span>
-                <span className="text-gray-900 dark:text-white">$5.00</span>
+                <span className="text-gray-900 dark:text-white">₹ 5.00</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-900 dark:text-white">Taxes</span>
-                <span className="text-gray-900 dark:text-white">$5.52</span>
+                <span className="text-gray-900 dark:text-white">₹ 5.52</span>
               </div>
             </div>
             <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -163,7 +168,7 @@ function Checkout() {
                   Total
                 </span>
                 <span className="text-lg font-medium text-gray-900 dark:text-white">
-                  $75.52
+                ₹ {PriceTotal + 50 + 40}
                 </span>
               </div>
               <ButtonForm className={"mx-auto w-[30%]"} field={"Checkout"} />
