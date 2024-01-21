@@ -15,6 +15,7 @@ export default function Component() {
 
   const Items = useSelector((state) => state.cart.items);
   const PriceCount = useSelector((state) => state.cart.total);
+  const ItemCount = useSelector((state) => state.cart.itemTotal);
 
   const [toggle, setToggle] = useState(false);
   const [cartVisible, setCartVisible] = useState(false);
@@ -197,7 +198,7 @@ export default function Component() {
                     <div className="flex-shrink-0 mr-4 cursor-pointer relative">
                         <ShoppingCartIcon onClick={toggleCart} className="text-[#DB2777] hover:text-[#9B104E] h-8 w-8 dark:text-[#DB2777] dark:hover:text-[#9B104E]" />
                         <span className="absolute top-0 right-0 bg-[#DB2777] text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">
-                            3
+                            {ItemCount}
                         </span>
                     </div>
                     <div className="flex-shrink-0 cursor-pointer">
