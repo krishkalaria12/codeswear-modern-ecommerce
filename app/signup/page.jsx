@@ -1,12 +1,99 @@
-import Image from "next/image";
+'use client';
 import InputForm from "@/components/form/Input";
 import FormFooter from "@/components/form/Footer";
-import Link from "next/link";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ButtonForm from "@/components/form/Button";
+import { useState } from 'react';
+import authService from '@/lib/appwrite/authConfig'
+import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/navigation'
+import {login} from "@/redux/features/authSlice"
 
 function Signup() {
+
+  const dispatch = useDispatch();
+  const router = useRouter()
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmpassword: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(formData.email);
+  };
+
+  const validatePassword = () => {
+    return formData.password.length >= 8;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const emailValid = validateEmail();
+    const passwordValid = validatePassword();
+
+    if (!emailValid) {
+      toast.error("Invalid Email");
+    }
+
+    if (!passwordValid) {
+      toast.error("Password Must be at least 8  characters")
+    }
+
+    if (data.password !== data.confirmpassword) {
+      toast.error("Password and Confirm Password do not match");
+    }
+
+    if (emailValid && passwordValid) {
+      create(formData);
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        confirmpassword: ''
+      });
+    }
+  };
+
+  const create = async(data) => {
+    try {
+        const userData = await authService.createAccount(
+          {
+            name: data.name,
+            email: data.email,
+            password: data.password,
+          }
+        )
+        if (userData) {
+            const userData = await authService.getCurrentUser()
+            if (userData) {
+                dispatch(login(userData))
+                toast.success("Account created successfully")
+                setTimeout(() => {
+                  router.push("/")
+                }, 2000);
+            }
+        }
+    } catch (error) {
+        toast.error(error.message)
+    }
+  }
+
   return (
     <>
+    <ToastContainer />
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
@@ -22,23 +109,23 @@ function Signup() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form className="space-y-6" method="POST">
           <div>
-            <InputForm placeholder="john doe" label="Enter your Name" type="text" key="name" name="name" />
+            <InputForm value={formData.name} onChange={handleChange} placeholder="john doe" label="Enter your Name" type="text" key="name" name="name" />
           </div>
           <div>
-            <InputForm placeholder="john.doe@gmail.com" label="Enter your email" key="email" type="email" name="email" />
+            <InputForm value={formData.email} onChange={(e) => handleChange(e)} placeholder="john.doe@gmail.com" label="Enter your email" key="email" type="email" name="email" />
           </div>
 
           <div>
-            <InputForm placeholder="123456" label="Enter your Password" type="password" key="password" name="password" />
+            <InputForm value={formData.password} onChange={(e) => handleChange(e)} placeholder="123456" label="Enter your Password" type="password" key="password" name="password" />
           </div>
           <div>
 
-            <InputForm placeholder="123456" label="Confirm your Password" key="confirmpassword" type="password" name="confirmpass" />
+            <InputForm value={formData.confirmpassword} onChange={(e) => handleChange(e)}  placeholder="123456" label="Confirm your Password" key="confirmpassword" type="password" name="confirmpassword" />
           </div>
           <div>
-            <ButtonForm field={"Register"} />
+            <ButtonForm onClick={(e) => handleSubmit(e)}  field={"Register"} />
           </div>
         </form>
 

@@ -1,4 +1,4 @@
-function InputForm({type, placeholder, label,name ,classname}) {
+function InputForm({type, placeholder, label,name ,classname, value, onChange}) {
   return (
     <>
       <label
@@ -9,6 +9,8 @@ function InputForm({type, placeholder, label,name ,classname}) {
       </label>
       <div className="mt-2">
         <input
+          value={value}
+          onChange={onChange}
           id={name}
           name={name}
           type={type}
