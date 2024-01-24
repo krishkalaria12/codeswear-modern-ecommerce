@@ -16,6 +16,7 @@ export default function Component() {
   const Items = useSelector((state) => state.cart.items);
   const PriceCount = useSelector((state) => state.cart.total);
   const ItemCount = useSelector((state) => state.cart.itemTotal);
+  const status = useSelector((state) => state.auth.status);
 
   const [toggle, setToggle] = useState(false);
   const [cartVisible, setCartVisible] = useState(true);
@@ -189,9 +190,9 @@ export default function Component() {
                 </div>
                 <div className="flex items-center">
                     <div className="flex-shrink-0 mr-4">
-                      <Link href={"/login"}>
+                      <Link href={status ? "/profile" : "/login"}>
                         <Button className="bg-pink-600 dark:bg-pink-600 dark:hover:bg-[#DB2777] dark:text-white text-white px-4 py-2 rounded-md text-base font-medium hover:bg-[#DB2777] cursor-pointer">
-                          Login
+                          {status ? "Profile" : "Login"}
                         </Button>
                       </Link>
                     </div>

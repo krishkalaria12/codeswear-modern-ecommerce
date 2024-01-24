@@ -1,3 +1,4 @@
+'use client'
 import InputForm from "@/components/form/Input";
 import FormFooter from "@/components/form/Footer";
 import Link from "next/link";

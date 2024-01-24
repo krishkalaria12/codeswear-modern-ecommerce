@@ -52,9 +52,10 @@ function Signup() {
       toast.error("Password Must be at least 8  characters")
     }
 
-    if (data.password !== data.confirmpassword) {
+    if (formData.password !== formData.confirmpassword) {
       toast.error("Password and Confirm Password do not match");
-    }
+    }    
+    
 
     if (emailValid && passwordValid) {
       create(formData);
@@ -67,29 +68,30 @@ function Signup() {
     }
   };
 
-  const create = async(data) => {
+  const create = async (data) => {
     try {
-        const userData = await authService.createAccount(
-          {
-            name: data.name,
-            email: data.email,
-            password: data.password,
-          }
-        )
-        if (userData) {
-            const userData = await authService.getCurrentUser()
-            if (userData) {
-                dispatch(login(userData))
-                toast.success("Account created successfully")
-                setTimeout(() => {
-                  router.push("/")
-                }, 2000);
-            }
+      const createdUserData = await authService.createAccount({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+      });
+  
+      if (createdUserData) {
+        const currentUserData = await authService.getCurrentUser();
+        if (currentUserData) {
+          dispatch(login(currentUserData));
+          toast.success("Account created successfully");
+          setTimeout(() => {
+            router.push("/");
+          }, 2000);
         }
+      }
     } catch (error) {
-        toast.error(error.message)
+      console.log(error);
+      toast.error(error.message);
+      throw error;
     }
-  }
+  };  
 
   return (
     <>
