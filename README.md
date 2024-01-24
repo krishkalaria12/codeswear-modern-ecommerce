@@ -29,7 +29,7 @@ git clone https://github.com/krishkalaria12/codeswear-modern-ecommerce.git
 npm i
 ```
 
-### Setup .env file
+### Setup .env.local file
 
 ```js
 NEXT_PUBLIC_APPWRITE_URL="https://cloud.appwrite.io/v1"
