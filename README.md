@@ -29,6 +29,20 @@ git clone https://github.com/krishkalaria12/codeswear-modern-ecommerce.git
 npm i
 ```
 
+### Setup .env.local file
+
+```js
+NEXT_PUBLIC_APPWRITE_URL="https://cloud.appwrite.io/v1"
+NEXT_PUBLIC_APPWRITE_PROJECT_ID=""
+NEXT_PUBLIC_APPWRITE_DATABASE_ID=""
+NEXT_PUBLIC_APPWRITE_CAPS_COLLECTION_ID=""
+NEXT_PUBLIC_APPWRITE_MUGS_COLLECTION_ID=""
+NEXT_PUBLIC_APPWRITE_SWEATSHIRTS_COLLECTION_ID=""
+NEXT_PUBLIC_APPWRITE_TSHIRTS_COLLECTION_ID=""
+NEXT_PUBLIC_APPWRITE_HOODIES_COLLECTION_ID=""
+NEXT_PUBLIC_APPWRITE_BUCKET_ID=""
+```
+
 ## Available commands
 
 Running commands with npm `npm run [command]`
