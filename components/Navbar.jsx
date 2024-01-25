@@ -4,12 +4,29 @@ import ThemeButton from "./ThemeButton"
 import {useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { login } from "@/redux/features/authSlice"
+import authService from "@/lib/appwrite/authConfig"
 import {useDispatch, useSelector } from "react-redux"
 import { IoClose } from "react-icons/io5";
 import { FaPlus, FaMinus } from "react-icons/fa";
-import { clearCart, increaseItemQuantity, setCartFromLocalStorage } from "@/redux/features/Cartslice"
+import { clearCart, increaseItemQuantity, decreaseItemQuantity, setCartFromLocalStorage } from "@/redux/features/Cartslice"
 
 export default function Component() {
+
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      const parsedCart = JSON.parse(savedCart);
+      dispatch(setCartFromLocalStorage(parsedCart));
+    }
+    const getUsers = async () => {
+      const users = await authService.getCurrentUser();
+      if (users) {
+        dispatch(login(users));
+      }
+    };
+    getUsers()
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -39,18 +56,12 @@ export default function Component() {
     localStorage.removeItem("cart");
   }
 
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      const parsedCart = JSON.parse(savedCart);
-      dispatch(setCartFromLocalStorage(parsedCart));
-    }
-  }, []);
-
   const handleIncreaseQuanity = (item) => {
+  //   dispatch(increaseItemQuantity({ product: item }));
   }
-
+  
   const handleDecreaseQuanity = (item) => {
+  //   dispatch(decreaseItemQuantity({ product: item }));
   }
 
   return (

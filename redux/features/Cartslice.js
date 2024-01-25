@@ -48,7 +48,8 @@ const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state));
     },
     increaseItemQuantity: (state, action) => {
-      const { id } = action.payload.item;
+      const {id}  = action.payload.item;
+      // console.log(id);
       const existingProduct = state.items.find(item => item.id === id);
 
       if (existingProduct) {

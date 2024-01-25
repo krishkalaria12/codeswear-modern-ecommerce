@@ -7,9 +7,7 @@ const conf = {
     appwriteTshirtsCollectionId: String(process.env.NEXT_PUBLIC_APPWRITE_TSHIRTS_COLLECTION_ID),
     appwriteSweatshirtsCollectionId: String(process.env.NEXT_PUBLIC_APPWRITE_SWEATSHIRTS_COLLECTION_ID),
     appwriteHoodiesCollectionId: String(process.env.NEXT_PUBLIC_APPWRITE_HOODIES_COLLECTION_ID),
-    appwriteBucketId: String(process.env.appwriteBucketId),
+    appwriteBucketId: String(process.env.NEXT_PUBLIC_APPWRITE_BUCKET_ID),
 }
-
-console.log(conf);
 
 export default conf
