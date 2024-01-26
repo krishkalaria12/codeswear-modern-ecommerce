@@ -4,11 +4,11 @@ import ThemeButton from "./ThemeButton"
 import {useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { login } from "@/redux/features/authSlice"
+import { login, logout } from "@/redux/features/authSlice"
 import authService from "@/lib/appwrite/authConfig"
 import {useDispatch, useSelector } from "react-redux"
 import { IoClose } from "react-icons/io5";
-import { FaPlus, FaMinus } from "react-icons/fa";
+import { FaPlus, FaMinus, FaUserCircle } from "react-icons/fa";
 import { clearCart, increaseItemQuantity, decreaseItemQuantity, setCartFromLocalStorage } from "@/redux/features/Cartslice"
 
 export default function Component() {
@@ -47,6 +47,12 @@ export default function Component() {
     setSearchVisible((prevSearchVisible) => !prevSearchVisible);
   };
 
+  const [isDropDown, setisDropDown] = useState(false);
+
+  const handleLoggedInDropdown = () => {
+    setisDropDown((prev) => !prev)
+  }
+
   const toggleNav = () => {
     setToggle((toggle) => !toggle)
   }
@@ -54,6 +60,11 @@ export default function Component() {
   const handleClearCart = () => {
     dispatch(clearCart())
     localStorage.removeItem("cart");
+  }
+
+  const handleLogout = async () => {
+    await authService.logout();
+    dispatch(logout());
   }
 
   const handleIncreaseQuanity = (item) => {
@@ -201,11 +212,28 @@ export default function Component() {
                 </div>
                 <div className="flex items-center">
                     <div className="flex-shrink-0 mr-4">
-                      <Link href={status ? "/profile" : "/login"}>
+                      {!status && <Link href={"/login"}>
                         <Button className="bg-pink-600 dark:bg-pink-600 dark:hover:bg-[#DB2777] dark:text-white text-white px-4 py-2 rounded-md text-base font-medium hover:bg-[#DB2777] cursor-pointer">
-                          {status ? "Profile" : "Login"}
+                          Login
                         </Button>
-                      </Link>
+                      </Link>}
+                      {status && 
+                       <div
+                       className="relative inline-block"
+                       onClick={handleLoggedInDropdown}
+                     >
+                       <FaUserCircle className="w-8 h-8 cursor-pointer" />
+                 
+                       {isDropDown && (
+                         <div className="absolute mt-2 w-32 p-2 bg-white border border-gray-300 rounded shadow">
+                           <ul>
+                             <Link href={""}><li className="py-1 dark:text-black cursor-pointer text-pink-600">My Account</li></Link>
+                             <Link href={""}><li className="py-1 dark:text-black cursor-pointer text-pink-600">Orders</li></Link>
+                             <li onClick={handleLogout} className="py-1 dark:text-black cursor-pointer text-pink-600">Logout</li>
+                           </ul>
+                         </div>
+                       )}
+                     </div>}
                     </div>
                     <div className="flex-shrink-0 mr-4 cursor-pointer relative">
                         <ShoppingCartIcon onClick={toggleCart} className="text-[#DB2777] hover:text-[#9B104E] h-8 w-8 dark:text-[#DB2777] dark:hover:text-[#9B104E]" />
