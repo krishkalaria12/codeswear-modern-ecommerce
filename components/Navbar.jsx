@@ -242,9 +242,9 @@ export default function Component() {
                        {isDropDown && (
                          <div className="absolute mt-2 w-32 p-2 bg-white border border-gray-300 rounded shadow">
                            <ul>
-                             <Link href={""}><li className="py-1 dark:text-black cursor-pointer text-pink-600">My Account</li></Link>
-                             <Link href={""}><li className="py-1 dark:text-black cursor-pointer text-pink-600">Orders</li></Link>
-                             <li onClick={handleLogout} className="py-1 dark:text-black cursor-pointer text-pink-600">Logout</li>
+                             <Link href={""}><li className="py-1 dark:text-pink-600 cursor-pointer text-pink-500 font-bold">My Account</li></Link>
+                             <Link href={""}><li className="py-1 dark:text-pink-600 cursor-pointer text-pink-500 font-bold">Orders</li></Link>
+                             <li onClick={handleLogout} className="py-1 dark:text-pink-600 cursor-pointer font-bold text-pink-500">Logout</li>
                            </ul>
                          </div>
                        )}

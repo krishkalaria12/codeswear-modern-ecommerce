@@ -1,45 +1,45 @@
-import React from 'react'
-import Image from 'next/image'
-import { Button } from './ui/button'
+import Image from 'next/image';
+import { Button } from './ui/button';
+import { useId } from 'react';
 
-function Card() {
+function Card({ name, size, color, imageUrl, Price, discountedPrice }) {
+  const id = useId();
     return (
         <div className="flex p-4 dark:bg-[#374151] shadow-md flex-col items-center space-y-2">
-          <Image
-            alt="Good Vibes Hoodie"
-            className="h-[400px] w-[300px] object-cover"
-            height="400"
-            src="/placeholder.svg"
-            style={{
-              aspectRatio: "300/400",
-              objectFit: "cover",
-            }}
-            width="300"
-          />
-          <h2 className="text-lg font-semibold">Hoodie</h2>
-          <div className='flex flex-col-reverse gap-2 w-full justify-around items-center'>
+            <Image
+                alt={name}
+                className="h-auto w-auto object-cover"
+                height={400}
+                src={imageUrl || "/placeholder.svg"}
+                style={{
+                    aspectRatio: "300/400",
+                    objectFit: "cover",
+                }}
+                width={300}
+            />
+            <h2 className="text-lg font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{name}</h2>
+
             <div className="flex space-x-1">
-                <span className="h-5 w-5 rounded-full bg-black" />
-                <span className="h-5 w-5 rounded-full bg-gray-500" />
-                <span className="h-5 w-5 rounded-full bg-red-500" />
-                <span className="h-5 w-5 rounded-full bg-green-500" />
-                <span className="h-5 w-5 rounded-full bg-blue-500" />
+              {color.map((c,index) => (
+                <>
+                  <button key={`${imageUrl}-${c}-${index}`}  className={`h-5 w-5 rounded-full text-${c}-500`} style={{background: `${c}`}}></button>
+                </>
+              ))}
             </div>
-            <p className="text-xl">Good Vibes Hoodie</p>
-          </div>
-          <div className='flex space-x-2 items-center'>
-            <span className="text-xl text-black font-bold dark:text-white">₹949</span>
-            <span className="text-base line-through text-gray-500 dark:text-gray-400">₹799</span>
-          </div>
-          <div className="flex space-x-1">
-            <Button className="hover:bg-[#bd1e59] bg-[#DB2777] dark:hover:bg-[#bd1e59] dark:text-white dark:bg-[#DB2777]">S</Button>
-            <Button className="hover:bg-[#bd1e59] dark:hover:bg-[#bd1e59] dark:bg-[#DB2777] dark:text-white bg-[#DB2777]">M</Button>
-            <Button className="hover:bg-[#bd1e59] dark:hover:bg-[#bd1e59] dark:bg-[#DB2777] dark:text-white bg-[#DB2777]">L</Button>
-            <Button className="hover:bg-[#bd1e59] dark:hover:bg-[#bd1e59] dark:bg-[#DB2777] dark:text-white bg-[#DB2777]">XL</Button>
-            <Button className="hover:bg-[#bd1e59] dark:hover:bg-[#bd1e59] dark:bg-[#DB2777] dark:text-white bg-[#DB2777]">XXL</Button>
-          </div>
+
+            <div className='flex space-x-2 items-center'>
+                <span className="text-2xl text-black font-bold dark:text-white">₹{Price}</span>
+                <span className="text-xl line-through text-gray-500 dark:text-gray-400">{discountedPrice}</span>
+            </div>
+            <div className="flex space-x-1">
+                {size.map((s, index) => (
+                    <Button key={index} className="hover:bg-[#bd1e59] bg-[#DB2777] dark:hover:bg-[#bd1e59] dark:text-white dark:bg-[#DB2777]">
+                        {s.toUpperCase()}
+                    </Button>
+                ))}
+            </div>
         </div>
-    )
+    );
 }
 
-export default Card
+export default Card;
