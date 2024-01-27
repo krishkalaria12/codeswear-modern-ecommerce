@@ -17,15 +17,15 @@ function Card() {
             width="300"
           />
           <h2 className="text-lg font-semibold">Hoodie</h2>
-          <div className='flex w-full justify-around items-center'>
+          <div className='flex flex-col-reverse gap-2 w-full justify-around items-center'>
             <div className="flex space-x-1">
-                <span className="h-3 w-3 rounded-full bg-black" />
-                <span className="h-3 w-3 rounded-full bg-gray-500" />
-                <span className="h-3 w-3 rounded-full bg-red-500" />
-                <span className="h-3 w-3 rounded-full bg-green-500" />
-                <span className="h-3 w-3 rounded-full bg-blue-500" />
+                <span className="h-5 w-5 rounded-full bg-black" />
+                <span className="h-5 w-5 rounded-full bg-gray-500" />
+                <span className="h-5 w-5 rounded-full bg-red-500" />
+                <span className="h-5 w-5 rounded-full bg-green-500" />
+                <span className="h-5 w-5 rounded-full bg-blue-500" />
             </div>
-            <p className="text-base">Good Vibes Hoodie</p>
+            <p className="text-xl">Good Vibes Hoodie</p>
           </div>
           <div className='flex space-x-2 items-center'>
             <span className="text-xl text-black font-bold dark:text-white">₹949</span>

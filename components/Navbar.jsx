@@ -4,12 +4,15 @@ import ThemeButton from "./ThemeButton"
 import {useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from 'next/navigation'
 import { login, logout } from "@/redux/features/authSlice"
 import authService from "@/lib/appwrite/authConfig"
 import {useDispatch, useSelector } from "react-redux"
 import { IoClose } from "react-icons/io5";
 import { FaPlus, FaMinus, FaUserCircle } from "react-icons/fa";
 import { clearCart, increaseItemQuantity, decreaseItemQuantity, setCartFromLocalStorage } from "@/redux/features/Cartslice"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Component() {
 
@@ -20,15 +23,22 @@ export default function Component() {
       dispatch(setCartFromLocalStorage(parsedCart));
     }
     const getUsers = async () => {
-      const users = await authService.getCurrentUser();
-      if (users) {
-        dispatch(login(users));
+      const cookieFallback = localStorage.getItem("cookieFallback");
+      if (cookieFallback.length!=[]) {
+          const users = await authService.getCurrentUser();
+          if (users) {
+            dispatch(login(users));
+          }
+      }
+      else {
+        dispatch(logout());
       }
     };
     getUsers()
   }, []);
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const Items = useSelector((state) => state.cart.items);
   const PriceCount = useSelector((state) => state.cart.total);
@@ -65,6 +75,10 @@ export default function Component() {
   const handleLogout = async () => {
     await authService.logout();
     dispatch(logout());
+    toast.success("Logged out Successfully")
+    setTimeout(() => {
+      router.push("/login")
+    }, 2000);
   }
 
   const handleIncreaseQuanity = (item) => {
@@ -77,6 +91,7 @@ export default function Component() {
 
   return (
     <>
+      <ToastContainer />
       <nav className="bg-[#ffffff] shadow-md dark:bg-[#111827] border-b border-gray-200 dark:border-[#111827] p-2 sticky top-0 z-50">
       <div className="px-4 w-full h-full lg:px-4">
         <div className="flex justify-between w-full items-center">
