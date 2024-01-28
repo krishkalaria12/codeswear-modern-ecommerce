@@ -23,7 +23,7 @@ function Checkout() {
             </h3>
             <div className="flex sm:flex-row flex-col items-center justify-between w-full sm:space-y-0 space-y-3">
               <div className="sm:w-2/5 w-full">
-                <InputForm
+                <InputForm readOnly={false}
                   placeholder="First Name"
                   label="Enter your First Name"
                   type="text"
@@ -32,7 +32,7 @@ function Checkout() {
                 />
               </div>
               <div className="sm:w-2/5 w-full">
-                <InputForm
+                <InputForm readOnly={false}
                   placeholder="Last Name"
                   label="Enter your Last Name"
                   type="text"
@@ -43,7 +43,7 @@ function Checkout() {
             </div>
             <div className="flex sm:flex-row flex-col items-center justify-between w-full sm:space-y-0 space-y-3">
               <div className="sm:w-2/5 w-full">
-                <InputForm
+                <InputForm readOnly={false}
                   placeholder="Country"
                   label="Country"
                   type="text"
@@ -52,7 +52,7 @@ function Checkout() {
                 />
               </div>
               <div className="sm:w-2/5 w-full">
-                <InputForm
+                <InputForm readOnly={false}
                   placeholder="City"
                   label="City"
                   type="text"
@@ -63,7 +63,7 @@ function Checkout() {
             </div>
             <div className="flex sm:flex-row flex-col items-center justify-between w-full sm:space-y-0 space-y-3">
               <div className="sm:w-2/5 w-full">
-                <InputForm
+                <InputForm readOnly={false}
                   placeholder="State"
                   label="State"
                   type="text"
@@ -72,7 +72,7 @@ function Checkout() {
                 />
               </div>
               <div className="sm:w-2/5 w-full">
-                <InputForm
+                <InputForm readOnly={false}
                   placeholder="Postal Code"
                   label="Postal Code"
                   type="number"
@@ -83,7 +83,7 @@ function Checkout() {
             </div>
             <div className="flex sm:flex-row flex-col items-center justify-between w-full sm:space-y-0 space-y-3">
               <div className="sm:w-2/5 w-full">
-                <InputForm
+                <InputForm readOnly={false}
                   placeholder="Flat No, Street No"
                   label="Enter the Flat No"
                   type="text"
@@ -92,7 +92,7 @@ function Checkout() {
                 />
               </div>
               <div className="sm:w-2/5 w-full">
-                <InputForm
+                <InputForm readOnly={false}
                   placeholder="1234567890"
                   label="Phone Number"
                   type="number"

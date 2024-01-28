@@ -113,18 +113,18 @@ function Signup() {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" method="POST">
           <div>
-            <InputForm value={formData.name} onChange={handleChange} placeholder="john doe" label="Enter your Name" type="text" key="name" name="name" />
+            <InputForm readOnly={false} value={formData.name} onChange={handleChange} placeholder="john doe" label="Enter your Name" type="text" key="name" name="name" />
           </div>
           <div>
-            <InputForm value={formData.email} onChange={(e) => handleChange(e)} placeholder="john.doe@gmail.com" label="Enter your email" key="email" type="email" name="email" />
+            <InputForm readOnly={false} value={formData.email} onChange={(e) => handleChange(e)} placeholder="john.doe@gmail.com" label="Enter your email" key="email" type="email" name="email" />
           </div>
 
           <div>
-            <InputForm value={formData.password} onChange={(e) => handleChange(e)} placeholder="123456" label="Enter your Password" type="password" key="password" name="password" />
+            <InputForm readOnly={false} value={formData.password} onChange={(e) => handleChange(e)} placeholder="123456" label="Enter your Password" type="password" key="password" name="password" />
           </div>
           <div>
 
-            <InputForm value={formData.confirmpassword} onChange={(e) => handleChange(e)}  placeholder="123456" label="Confirm your Password" key="confirmpassword" type="password" name="confirmpassword" />
+            <InputForm readOnly={false} value={formData.confirmpassword} onChange={(e) => handleChange(e)}  placeholder="123456" label="Confirm your Password" key="confirmpassword" type="password" name="confirmpassword" />
           </div>
           <div>
             <ButtonForm onClick={(e) => handleSubmit(e)}  field={"Register"} />

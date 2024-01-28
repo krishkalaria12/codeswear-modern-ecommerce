@@ -101,11 +101,11 @@ function Login() {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" method="POST">
           <div>
-            <InputForm onChange={(e) => handleChange(e)} value={formData.email} placeholder="john.doe@gmail.com" label="Enter your email" type="email" key="email" name="email" />
+            <InputForm readOnly={false} onChange={(e) => handleChange(e)} value={formData.email} placeholder="john.doe@gmail.com" label="Enter your email" type="email" key="email" name="email" />
           </div>
 
           <div>
-            <InputForm onChange={(e) => handleChange(e)} value={formData.password} placeholder="123456" label="Enter your Password" type="password" key="password" name="password" />
+            <InputForm readOnly={false} onChange={(e) => handleChange(e)} value={formData.password} placeholder="123456" label="Enter your Password" type="password" key="password" name="password" />
           </div>
             <div className="flex items-center justify-between">
               <div className="text-sm">
