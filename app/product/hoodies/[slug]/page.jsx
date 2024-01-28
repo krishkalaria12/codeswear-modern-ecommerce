@@ -3,6 +3,7 @@ import {notFound, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 // import ProductImage from "@/components/ProductImage"
+import conf from "@/conf/conf";
 import Image from "next/image";
 import service from "@/lib/appwrite/dbConfig";
 import { useRouter } from "next/navigation";
@@ -49,16 +50,15 @@ function Product({ params }) {
 
   const fetchProduct = async () => {
     const slug = params.slug;
-    const fetchProductSlug = await service.getPostBySlug(slug);
+    const fetchProductSlug = await service.getPostBySlug(slug, conf.appwriteHoodiesCollectionId);
     // if (fetchProductSlug.documents.length=0 || fetchProductSlug.documents == [] || fetchProductSlug.total==0) {
     //   notFound();
     // }
     setProductSlug(fetchProductSlug.documents[0]);
-    console.log(fetchProductSlug.documents[0]);
     setColor(fetchProductSlug.documents[0].color);
     setSize(fetchProductSlug.documents[0].size);
     const products = await service.getPostsByName(
-      fetchProductSlug.documents[0].name
+      fetchProductSlug.documents[0].name, conf.appwriteHoodiesCollectionId
     );
     const documents = products.documents;
     const availableProducts = documents.filter((item) => item.isAvailable);
@@ -76,7 +76,7 @@ function Product({ params }) {
   };
 
   const refreshVariant = (newsize, newcolor) => {
-    let url = `http://localhost:3000/product/${variants[newcolor][newsize]["slug"]}`;
+    let url = `http://localhost:3000/product/hoodies/${variants[newcolor][newsize]["slug"]}`;
     router.push(url);
   };
 
@@ -170,6 +170,20 @@ function Product({ params }) {
                         : "border-grey-300"
                     } w-5 rounded-full`}
                     style={{ background: "red" }}
+                  ></button>
+                )}
+
+              {variants &&
+                Object.keys(variants).includes("yellow") &&
+                Object.keys(variants["yellow"]).includes(size) && (
+                  <button
+                    onClick={() => refreshVariant(size, "yellow")}
+                    className={`h-5 ${
+                      color === "yellow"
+                        ? "dark:border-white border-black border-2"
+                        : "border-grey-300"
+                    } w-5 rounded-full`}
+                    style={{ background: "yellow" }}
                   ></button>
                 )}
 

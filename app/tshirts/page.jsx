@@ -59,7 +59,7 @@ function Tshirts() {
         <div className="dark:bg-[#1F2937] bg-white p-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {tshirts.map((tshirt, index) => (
-                    <Link href={`/product/${tshirt.slug}`} key={index}>
+                    <Link href={`/product/tshirts/${tshirt.slug}`} key={index}>
                         <Card {...tshirt} />
                     </Link>
                 ))}
