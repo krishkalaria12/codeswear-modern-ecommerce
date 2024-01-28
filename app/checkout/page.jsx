@@ -122,7 +122,7 @@ function Checkout() {
                   alt="Basic Tee Sienna"
                   className="h-16 w-16 object-cover"
                   height="64"
-                  src="/placeholder.svg"
+                  src={`${items.image ? items.image : "/placeholder.svg"}`}
                   style={{
                     aspectRatio: "64/64",
                     objectFit: "cover",
