@@ -1,8 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
 import Provider from "@/redux/provider";
 import Providers from "./providers";
 import Footer from "@/components/Footer";
+import Loading from "./Loading"
 import Navbar from "@/components/Navbar";
 import ProvidersProgress from "@/components/ProgressBar";
 
@@ -15,7 +17,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -23,7 +24,9 @@ export default function RootLayout({ children }) {
           <Providers>
             <ProvidersProgress>
               <Navbar />
-                <main className="w-full dark:bg-[#111827]">{children}</main>
+                <main className="w-full dark:bg-[#111827]">
+                <Suspense fallback={<Loading />}>{children}</Suspense>
+                  </main>
               <Footer />
             </ProvidersProgress>
           </Providers>

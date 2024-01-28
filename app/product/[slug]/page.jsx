@@ -1,5 +1,5 @@
 "use client";
-import { useParams } from "next/navigation";
+import {notFound, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 // import ProductImage from "@/components/ProductImage"
@@ -50,7 +50,11 @@ function Product({ params }) {
   const fetchProduct = async () => {
     const slug = params.slug;
     const fetchProductSlug = await service.getPostBySlug(slug);
+    // if (fetchProductSlug.documents.length=0 || fetchProductSlug.documents == [] || fetchProductSlug.total==0) {
+    //   notFound();
+    // }
     setProductSlug(fetchProductSlug.documents[0]);
+    console.log(fetchProductSlug.documents[0]);
     setColor(fetchProductSlug.documents[0].color);
     setSize(fetchProductSlug.documents[0].size);
     const products = await service.getPostsByName(

@@ -1,6 +1,7 @@
 'use client';
 import Card from '@/components/Card'
 import Link from 'next/link'
+import conf from "../../conf/conf"
 import service from '@/lib/appwrite/dbConfig'
 import { useEffect, useState } from 'react'
 
@@ -10,7 +11,7 @@ function Tshirts() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await service.getAllPosts();
+                const data = await service.getAllPosts(conf.appwriteTshirtsCollectionId);
                 const responses = data.documents;
     
                 let tshirtData = {};
