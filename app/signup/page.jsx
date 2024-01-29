@@ -3,6 +3,7 @@ import InputForm from "@/components/form/Input";
 import FormFooter from "@/components/form/Footer";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Image from "next/image";
 import ButtonForm from "@/components/form/Button";
 import { useState } from 'react';
 import authService from '@/lib/appwrite/authConfig'
@@ -98,12 +99,13 @@ function Signup() {
     <ToastContainer />
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          src="https://tailwindui.com/img/logos/mark.svg?color=pink&shade=600"
+        <Image
+          src="/codeswearcircle.png"
           alt="Your Company"
-        //   height={40}
-        //   width={60}
-          className="mx-auto h-10 w-auto"
+          priority={true}
+          height={40}
+          width={60}
+          className="mx-auto h-16 w-auto"
         />
         <h2 className="dark:text-gray-200 mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Register your account
@@ -118,12 +120,10 @@ function Signup() {
           <div>
             <InputForm readOnly={false} value={formData.email} onChange={(e) => handleChange(e)} placeholder="john.doe@gmail.com" label="Enter your email" key="email" type="email" name="email" />
           </div>
-
           <div>
             <InputForm readOnly={false} value={formData.password} onChange={(e) => handleChange(e)} placeholder="123456" label="Enter your Password" type="password" key="password" name="password" />
           </div>
           <div>
-
             <InputForm readOnly={false} value={formData.confirmpassword} onChange={(e) => handleChange(e)}  placeholder="123456" label="Confirm your Password" key="confirmpassword" type="password" name="confirmpassword" />
           </div>
           <div>
