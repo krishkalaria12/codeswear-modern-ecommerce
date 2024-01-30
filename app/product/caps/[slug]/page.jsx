@@ -76,7 +76,7 @@ function Product({ params }) {
   };
 
   const refreshVariant = (newsize, newcolor) => {
-    let url = `http://localhost:3000/product/caps/${variants[newcolor][newsize]["slug"]}`;
+    let url = `${process.env.NEXT_PUBLIC_HOST}/product/caps/${variants[newcolor][newsize]["slug"]}`;
     router.push(url);
   };
 

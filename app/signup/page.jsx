@@ -83,7 +83,7 @@ function Signup() {
           dispatch(login(currentUserData));
           toast.success("Account created successfully");
           setTimeout(() => {
-            router.push("/");
+            router.push("/myaccount");
           }, 2000);
         }
       }
