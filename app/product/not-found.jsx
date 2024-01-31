@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-function notFound() {
+function NotFound() {
   return (
     <div className="bg-white dark:bg-[#1F2937] py-6 sm:py-8 lg:py-12">
       <div className="mx-auto max-w-screen-lg px-4 md:px-8">
@@ -39,4 +39,4 @@ function notFound() {
   );
 }
 
-export default notFound;
+export default NotFound;

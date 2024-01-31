@@ -10,6 +10,7 @@ import conf from "@/conf/conf";
 import { addItem, clearCart } from "@/redux/features/Cartslice";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import NotFound from "../../not-found";
 
 function Product({ params }) {
   const pathname = useParams();
@@ -47,36 +48,40 @@ function Product({ params }) {
   const [productSlug, setProductSlug] = useState({});
   const [color, setColor] = useState(undefined);
   const [size, setSize] = useState(undefined);
+  const [wrongSlug, setWrongSlug] = useState(false);
 
   const fetchProduct = async () => {
     const slug = params.slug;
     const fetchProductSlug = await service.getPostBySlug(slug, conf.appwriteMugsCollectionId);
-    // if (fetchProductSlug.documents.length=0 || fetchProductSlug.documents == [] || fetchProductSlug.total==0) {
-    //   notFound();
-    // }
-    setProductSlug(fetchProductSlug.documents[0]);
-    setColor(fetchProductSlug.documents[0].color);
-    setSize(fetchProductSlug.documents[0].size);
-    const products = await service.getPostsByName(
-      fetchProductSlug.documents[0].name, conf.appwriteMugsCollectionId
-    );
-    const documents = products.documents;
-    const availableProducts = documents.filter((item) => item.isAvailable);
-    const colorsizeslug = {};
-
-    for (let item of availableProducts) {
-      if (Object.keys(colorsizeslug).includes(item.color)) {
-        colorsizeslug[item.color][item.size] = { slug: item.slug };
-      } else {
-        colorsizeslug[item.color] = {};
-        colorsizeslug[item.color][item.size] = { slug: item.slug };
+    if (fetchProductSlug.documents.length!=0) {
+      setWrongSlug(false);
+      setProductSlug(fetchProductSlug.documents[0]);
+      setColor(fetchProductSlug.documents[0].color);
+      setSize(fetchProductSlug.documents[0].size);
+      const products = await service.getPostsByName(
+        fetchProductSlug.documents[0].name, conf.appwriteMugsCollectionId
+      );
+      const documents = products.documents;
+      const availableProducts = documents.filter((item) => item.isAvailable);
+      const colorsizeslug = {};
+  
+      for (let item of availableProducts) {
+        if (Object.keys(colorsizeslug).includes(item.color)) {
+          colorsizeslug[item.color][item.size] = { slug: item.slug };
+        } else {
+          colorsizeslug[item.color] = {};
+          colorsizeslug[item.color][item.size] = { slug: item.slug };
+        }
       }
+      setVariants(colorsizeslug);
     }
-    setVariants(colorsizeslug);
+    else {
+      setWrongSlug(true);
+    }
   };
 
   const refreshVariant = (newsize, newcolor) => {
-    let url = `${process.env.NEXT_PUBLIC_HOST}/product/mugs/${variants[newcolor][newsize]["slug"]}`;
+    let url = `/product/mugs/${variants[newcolor][newsize]["slug"]}`;
     router.push(url);
   };
 
@@ -113,6 +118,10 @@ function Product({ params }) {
     dispatch(addItem({ product: item }));
     router.push("/checkout");
   };
+
+  if (wrongSlug==true) {
+    return <NotFound />;
+  }
 
   return (
     <div className="dark:bg-gray-900 dark:text-white bg-white text-black">
