@@ -6,6 +6,8 @@ import Providers from "./providers";
 import Footer from "@/components/Footer";
 import Loading from "./Loading"
 import Navbar from "@/components/Navbar";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/react';
 import ProvidersProgress from "@/components/ProgressBar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,6 +30,8 @@ export default function RootLayout({ children }) {
                 <Suspense fallback={<Loading />}>{children}</Suspense>
                   </main>
               <Footer />
+              <Analytics />
+              <SpeedInsights />
             </ProvidersProgress>
           </Providers>
         </Provider>
