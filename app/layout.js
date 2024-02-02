@@ -30,10 +30,10 @@ export default function RootLayout({ children }) {
                   <Suspense fallback={<Loading />}>{children}</Suspense>
                 </main>
               <Footer />
-              <SpeedInsights />
             </ProvidersProgress>
           </Providers>
         </Provider>
+        <SpeedInsights />
         <Analytics />
       </body>
     </html>
