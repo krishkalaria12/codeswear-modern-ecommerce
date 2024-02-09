@@ -1,29 +1,56 @@
 'use client'
-import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { removeItem } from "@/redux/features/Cartslice";
+import Loading from "../Loading";
 import InputForm from "@/components/form/Input";
 import ButtonForm from "@/components/form/Button";
-import { useSelector } from "react-redux";
+import Image from "next/image";
+import TrashIcon from "@/components/TrashIcon";
 
 function Checkout() {
-  const Items = useSelector((state) => state.cart.items);
-  const PriceTotal = useSelector((state) => state.cart.total);
+  const dispatch = useDispatch();
+  const items = useSelector((state) => state.cart.items);
+  const total = useSelector((state) => state.cart.total);
+  const [noItem, setNoItem] = useState(false);
+  const [firstRender, setFirstRender] = useState(true);
+
+  useEffect(() => {
+    setFirstRender(false);
+  }, []);
+
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem("cart"));
+    if (!storedCart || storedCart.items.length === 0) {
+      setNoItem(true);
+    } else {
+      setNoItem(false);
+    }
+  }, [items]);
+
+  const handleRemoveProduct = (item) => {
+    dispatch(removeItem(item));
+  };
+
+  if (firstRender) {
+    return <Loading />;
+  }
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="dark:text-gray-200 mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Checkout For your Order
-          </h2>
-        </div>
-
+        <h2 className="dark:text-gray-200 mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          {noItem ? "Checkout For your Order" : "No Items Available"}
+        </h2>
         <div className="mt-10 sm:w-[100%] flex-col md:flex-row dark:bg-gray-800 p-8 rounded-xl flex">
-          <form className="space-y-6 w-full md:w-1/2" action="#" method="POST">
+          <form className="space-y-6 w-full md:w-1/2" method="POST">
             <h3 className="text-2xl font-semibold dark:text-white text-black">
               Contact Information
             </h3>
             <div className="flex sm:flex-row flex-col items-center justify-between w-full sm:space-y-0 space-y-3">
               <div className="sm:w-2/5 w-full">
-                <InputForm readOnly={false}
+                <InputForm
+                  readOnly={false}
                   placeholder="First Name"
                   label="Enter your First Name"
                   type="text"
@@ -32,7 +59,8 @@ function Checkout() {
                 />
               </div>
               <div className="sm:w-2/5 w-full">
-                <InputForm readOnly={false}
+                <InputForm
+                  readOnly={false}
                   placeholder="Last Name"
                   label="Enter your Last Name"
                   type="text"
@@ -43,7 +71,8 @@ function Checkout() {
             </div>
             <div className="flex sm:flex-row flex-col items-center justify-between w-full sm:space-y-0 space-y-3">
               <div className="sm:w-2/5 w-full">
-                <InputForm readOnly={false}
+                <InputForm
+                  readOnly={false}
                   placeholder="Country"
                   label="Country"
                   type="text"
@@ -52,7 +81,8 @@ function Checkout() {
                 />
               </div>
               <div className="sm:w-2/5 w-full">
-                <InputForm readOnly={false}
+                <InputForm
+                  readOnly={false}
                   placeholder="City"
                   label="City"
                   type="text"
@@ -63,7 +93,8 @@ function Checkout() {
             </div>
             <div className="flex sm:flex-row flex-col items-center justify-between w-full sm:space-y-0 space-y-3">
               <div className="sm:w-2/5 w-full">
-                <InputForm readOnly={false}
+                <InputForm
+                  readOnly={false}
                   placeholder="State"
                   label="State"
                   type="text"
@@ -72,7 +103,8 @@ function Checkout() {
                 />
               </div>
               <div className="sm:w-2/5 w-full">
-                <InputForm readOnly={false}
+                <InputForm
+                  readOnly={false}
                   placeholder="Postal Code"
                   label="Postal Code"
                   type="number"
@@ -83,7 +115,8 @@ function Checkout() {
             </div>
             <div className="flex sm:flex-row flex-col items-center justify-between w-full sm:space-y-0 space-y-3">
               <div className="sm:w-2/5 w-full">
-                <InputForm readOnly={false}
+                <InputForm
+                  readOnly={false}
                   placeholder="Flat No, Street No"
                   label="Enter the Flat No"
                   type="text"
@@ -92,7 +125,8 @@ function Checkout() {
                 />
               </div>
               <div className="sm:w-2/5 w-full">
-                <InputForm readOnly={false}
+                <InputForm
+                  readOnly={false}
                   placeholder="1234567890"
                   label="Phone Number"
                   type="number"
@@ -117,50 +151,44 @@ function Checkout() {
               Order summary
             </h2>
             <div className="space-y-4">
-              {Items.length!=0 && Items.map((items) => (<div className="flex items-start justify-between" key={items.id}>
-                <Image
-                  alt="Basic Tee Sienna"
-                  className="h-16 w-16 object-cover"
-                  height="64"
-                  src={`${items.image ? items.image : "/placeholder.svg"}`}
-                  style={{
-                    aspectRatio: "64/64",
-                    objectFit: "cover",
-                  }}
-                  width="64"
-                />
-                <div className="ml-4 flex-1">
-                  <p className="font-medium text-xl text-gray-900 dark:text-white">
-                    {items.name} ({items.size.toUpperCase()}/{items.color})
-                  </p>
-                  <div className="flex space-x-2">
-                    <p className="text-base text-gray-600 dark:text-gray-400">
-                      Quantity: 
+              {items.length !== 0 &&
+                items.map((item) => (
+                  <div
+                    className="flex items-start justify-between"
+                    key={item.id}
+                  >
+                    <Image
+                      alt="Basic Tee Sienna"
+                      className="h-16 w-16 object-cover"
+                      height="64"
+                      src={`${item.image ? item.image : "/placeholder.svg"}`}
+                      style={{
+                        aspectRatio: "64/64",
+                        objectFit: "cover",
+                      }}
+                      width="64"
+                    />
+                    <div className="ml-4 flex-1">
+                      <p className="font-medium text-xl text-gray-900 dark:text-white">
+                        {items.name} ({items.size.toUpperCase()}/{items.color})
+                      </p>
+                      <div className="flex space-x-2">
+                        <p className="text-base text-gray-600 dark:text-gray-400">
+                          Quantity:
+                        </p>
+                        <p className="text-base text-gray-600 dark:text-gray-400">
+                          {items.quantity}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                      ₹ {item.price}
                     </p>
-                    <p className="text-base text-gray-600 dark:text-gray-400">
-                      {(items.quantity)}
-                    </p>
+                    <span onClick={() => handleRemoveProduct(item)}>
+                      <TrashIcon className="ml-4 h-5 w-5 text-gray-600 dark:text-gray-400" />
+                    </span>
                   </div>
-                </div>
-                <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                ₹ {items.price}
-                </p>
-                <TrashIcon className="ml-4 h-5 w-5 text-gray-600 dark:text-gray-400" />
-              </div>))}
-            </div>
-            <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex justify-between mb-2">
-                <span className="text-gray-900 dark:text-white">Subtotal</span>
-                <span className="text-gray-900 dark:text-white">₹   {PriceTotal}</span>
-              </div>
-              <div className="flex justify-between mb-2">
-                <span className="text-gray-900 dark:text-white">Shipping</span>
-                <span className="text-gray-900 dark:text-white">₹ 50.0</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-900 dark:text-white">Taxes</span>
-                <span className="text-gray-900 dark:text-white">₹ 40.0</span>
-              </div>
+                ))}
             </div>
             <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
               <div className="flex justify-between mb-4">
@@ -168,36 +196,19 @@ function Checkout() {
                   Total
                 </span>
                 <span className="text-lg font-medium text-gray-900 dark:text-white">
-                ₹ {PriceTotal + 50 + 40}
+                  ₹ {!noItem ? total + 50 + 40 : 0}
                 </span>
               </div>
-              <ButtonForm className={"mx-auto w-[30%]"} field={"Checkout"} />
+              <ButtonForm
+                disabled={noItem}
+                className="mx-auto w-[30%] cursor-pointer"
+                field="Checkout"
+              />
             </div>
           </div>
         </div>
       </div>
     </>
-  );
-}
-
-function TrashIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M3 6h18" />
-      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-    </svg>
   );
 }
 

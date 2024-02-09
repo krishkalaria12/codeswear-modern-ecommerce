@@ -27,7 +27,7 @@ const cartSlice = createSlice({
         localStorage.setItem("cart", JSON.stringify(state));
     },
     removeItem: (state, action) => {
-      const itemToRemove = action.payload.product;
+      const itemToRemove = action.payload;
       const existingProduct = state.items.find(
         (item) => item.id === itemToRemove.id
       );

@@ -127,7 +127,7 @@ function Signup() {
             <InputForm readOnly={false} value={formData.confirmpassword} onChange={(e) => handleChange(e)}  placeholder="123456" label="Confirm your Password" key="confirmpassword" type="password" name="confirmpassword" />
           </div>
           <div>
-            <ButtonForm onClick={(e) => handleSubmit(e)}  field={"Register"} />
+            <ButtonForm disabled={false} onClick={(e) => handleSubmit(e)}  field={"Register"} />
           </div>
         </form>
 

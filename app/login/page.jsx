@@ -116,7 +116,7 @@ function Login() {
             </div>
 
           <div>
-            <ButtonForm onClick={handleLogin} field={"Log in"} />
+            <ButtonForm disabled={false} onClick={handleLogin} field={"Log in"} />
           </div>
         </form>
 
