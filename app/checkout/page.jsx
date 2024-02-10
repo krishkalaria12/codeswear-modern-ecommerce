@@ -7,6 +7,7 @@ import InputForm from "@/components/form/Input";
 import ButtonForm from "@/components/form/Button";
 import Image from "next/image";
 import TrashIcon from "@/components/TrashIcon";
+import {toast, ToastContainer} from "react-toastify";
 
 function Checkout() {
   const dispatch = useDispatch();
@@ -32,12 +33,20 @@ function Checkout() {
     dispatch(removeItem(item));
   };
 
+  const handleSubmitCheckout = () => {
+    if (items.length===0) {
+      toast.error("Your Cart is empty!");
+    }
+
+  }
+
   if (firstRender) {
     return <Loading />;
   }
 
   return (
     <>
+      <ToastContainer />
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
         <h2 className="dark:text-gray-200 mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           {noItem ? "Checkout For your Order" : "No Items Available"}
@@ -170,14 +179,14 @@ function Checkout() {
                     />
                     <div className="ml-4 flex-1">
                       <p className="font-medium text-xl text-gray-900 dark:text-white">
-                        {items.name} ({items.size.toUpperCase()}/{items.color})
+                        {item.name} ({item.size.toUpperCase()}/{item.color})
                       </p>
                       <div className="flex space-x-2">
                         <p className="text-base text-gray-600 dark:text-gray-400">
                           Quantity:
                         </p>
                         <p className="text-base text-gray-600 dark:text-gray-400">
-                          {items.quantity}
+                          {item.quantity}
                         </p>
                       </div>
                     </div>
@@ -185,10 +194,28 @@ function Checkout() {
                       ₹ {item.price}
                     </p>
                     <span onClick={() => handleRemoveProduct(item)}>
-                      <TrashIcon className="ml-4 h-5 w-5 text-gray-600 dark:text-gray-400" />
+                      <TrashIcon className="ml-4 h-5 w-5 text-gray-600 cursor-pointer dark:text-gray-400" />
                     </span>
                   </div>
                 ))}
+            </div>
+            <div className={"flex flex-col items-center space-y-4"}>
+              <div className={"flex w-full mt-6 items-center justify-between"}>
+                <p>
+                  Shipping Charges
+                </p>
+                <p>
+                  ₹ 50
+                </p>
+              </div>
+              <div className={"flex w-full mt-6 items-center justify-between"}>
+                <p>
+                  Taxes
+                </p>
+                <p>
+                  ₹ 40
+                </p>
+              </div>
             </div>
             <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
               <div className="flex justify-between mb-4">
@@ -200,7 +227,8 @@ function Checkout() {
                 </span>
               </div>
               <ButtonForm
-                disabled={noItem}
+                  disabled={noItem}
+                  onClick={handleSubmitCheckout}
                 className="mx-auto w-[30%] cursor-pointer"
                 field="Checkout"
               />
