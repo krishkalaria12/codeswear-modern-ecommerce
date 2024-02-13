@@ -76,7 +76,7 @@ function Login() {
             toast.success("Logged In successfully")
         }
     } catch (error) {
-        throw error
+        toast.error(error.message)
     }
 }
 

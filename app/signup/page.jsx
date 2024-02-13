@@ -90,7 +90,6 @@ function Signup() {
     } catch (error) {
       console.log(error);
       toast.error(error.message);
-      throw error;
     }
   };  
 
