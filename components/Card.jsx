@@ -12,6 +12,7 @@ function Card({ name, size, color, imageUrl, Price, discountedPrice }) {
                 alt={name}
                 className="h-auto w-auto object-cover"
                 height={400}
+                priority={true}
                 src={imageUrl || "/placeholder.svg"}
                 style={{
                     aspectRatio: "300/400",

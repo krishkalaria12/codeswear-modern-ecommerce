@@ -1,69 +1,41 @@
 'use client';
 import Card from '@/components/Card'
 import Link from 'next/link'
-import conf from "../../conf/conf"
-import service from '@/lib/appwrite/dbConfig'
+import fetchData from '@/actions/getAllProducts';
+import AllProductSkeleton from '@/components/skeletons/AllProductSkeleton';
 import { useEffect, useState } from 'react'
 
 function Caps() {
     const [Caps, setCaps] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchDataForCaps = async () => {
             try {
-                const data = await service.getAllPosts(conf.appwriteCapsCollectionId);
-                const responses = data.documents;
-    
-                let capsData = {};
-    
-                for (let item of responses) {
-                    if (item.isAvailable) {
-                        let cleanItem = {
-                            name: item.name,
-                            slug: item.slug,
-                            size: item.size,
-                            color: item.color,
-                            description: item.description,
-                            isAvailable: item.isAvailable,
-                            imageUrl: item.imageUrl,
-                            Price: item.Price,
-                            discountedPrice: item.discountedPrice
-                        };
-    
-                        if (item.name in capsData) {
-                            if (!capsData[item.name].color.includes(item.color)) {
-                                capsData[item.name].color.push(item.color);
-                            }
-                            if (!capsData[item.name].size.includes(item.size)) {
-                                capsData[item.name].size.push(item.size);
-                            }
-                        } else {
-                            capsData[item.name] = cleanItem;
-                            capsData[item.name].color = [item.color];
-                            capsData[item.name].size = [item.size];
-                        }
-                    }
-                }
-    
-                setCaps(Object.values(capsData));
-    
+                const data = await fetchData('caps');
+                setCaps(data);
+                setLoading(false); 
             } catch (error) {
-                console.error("Error fetching posts:", error);
+                console.error("Error fetching capss:", error);
             }
         };
-    
-        fetchData();
+
+        fetchDataForCaps();
     }, []);
 
     return (
         <div className="dark:bg-[#1F2937] bg-white p-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {Caps.map((cap, index) => (
-                    <Link href={`/product/caps/${cap.slug}`} key={index}>
-                        <Card {...cap} />
-                    </Link>
-                ))}
-            </div>
+            {loading ? (
+                <AllProductSkeleton theme={"dark"} />
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {Caps.map((caps, index) => (
+                        <Link href={`/product/caps/${caps.slug}`} key={index}>
+                            <Card {...caps} />
+                        </Link>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

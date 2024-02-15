@@ -268,12 +268,11 @@ export default function Component() {
         </div>
       </div>
     </nav>
-      <div className="md:hidden flex fixed p-2 bottom-0 left-0 right-0 w-full bg-[#111827] text-[#DB2777]">
+      <div className="md:hidden z-50 flex fixed p-2 bottom-0 left-0 right-0 w-full bg-[#111827] text-[#DB2777]">
         <div className="flex justify-around w-full font-bold">
-          <HomeIcon className="text-[#bd1e59]" />
-          <span>
-            <SearchIcon onClick={toggleSearch} className="text-[#bd1e59]" />
-          </span>
+          <Link href={"/"}>
+            <HomeIcon className="text-[#bd1e59]" />
+          </Link>
           <ShoppingCartIcon onClick={toggleCart}  className="text-[#bd1e59]" />
           <ThemeButton className="text-[#bd1e59]" />
           <UserIcon className="text-[#bd1e59]" />

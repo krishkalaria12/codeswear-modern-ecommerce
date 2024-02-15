@@ -1,8 +1,7 @@
 "use client";
-import {notFound, useParams } from "next/navigation";
+import {useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import ProductImage from "@/components/ProductImage"
 import Image from "next/image";
 import conf from "@/conf/conf";
 import service from "@/lib/appwrite/dbConfig";
