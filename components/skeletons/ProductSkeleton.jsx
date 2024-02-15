@@ -1,13 +1,18 @@
 import React from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
-function CustomLoadingSkeleton() {
-  const skeletonColor = '#f0f0f0';
-  const skeletonHighlightColor = '#e0e0e0';
+function ProductLoadingSkeleton({ theme }) {
+  const lightSkeletonColor = '#f0f0f0';
+  const lightSkeletonHighlightColor = '#e0e0e0';
+  const darkSkeletonColor = '#333333';
+  const darkSkeletonHighlightColor = '#444444';
+
+  const skeletonColor = theme === 'dark' ? darkSkeletonColor : lightSkeletonColor;
+  const skeletonHighlightColor = theme === 'dark' ? darkSkeletonHighlightColor : lightSkeletonHighlightColor;
 
   return (
-    <SkeletonTheme color={skeletonColor} highlightColor={skeletonHighlightColor}>
-      <div className="dark:bg-gray-900 dark:text-white bg-white text-black">
+    <div className={`dark:bg-gray-900 dark:text-white bg-white text-black`}>
+      <SkeletonTheme color={skeletonColor} highlightColor={skeletonHighlightColor}>
         <div className="container mx-auto px-6 py-12">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full lg:w-1/3 px-4 mb-8 lg:mb-0">
@@ -105,9 +110,9 @@ function CustomLoadingSkeleton() {
             </div>
           </div>
         </div>
-      </div>
-    </SkeletonTheme>
+      </SkeletonTheme>
+    </div>
   );
 }
 
-export default CustomLoadingSkeleton;
+export default ProductLoadingSkeleton;

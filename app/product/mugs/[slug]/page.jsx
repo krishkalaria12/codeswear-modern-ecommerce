@@ -1,12 +1,11 @@
 "use client";
-import {notFound, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import ProductImage from "@/components/ProductImage"
 import Image from "next/image";
-import service from "@/lib/appwrite/dbConfig";
 import { useRouter } from "next/navigation";
-import conf from "@/conf/conf";
+import fetchProduct from "@/actions/getProduct";
+import ProductLoadingSkeleton from "@/components/skeletons/ProductSkeleton";
 import { addItem, clearCart } from "@/redux/features/Cartslice";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
@@ -41,44 +40,30 @@ function Product({ params }) {
 
 
   useEffect(() => {
-    fetchProduct();
+    const fetchProductThroughServer = async () => {
+      try {
+        const slug = params.slug
+        const data = await fetchProduct(slug,"mugs");
+        setVariants(data.Variants);
+        setColor(data.Color);
+        setSize(data.Size);
+        setWrongSlug(data.wrongSlug);
+        setProductSlug(data.ProductSlug);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    }
+    fetchProductThroughServer();
   }, []);
 
+  const [loading, setLoading] = useState(true); 
   const [variants, setVariants] = useState({});
   const [productSlug, setProductSlug] = useState({});
   const [color, setColor] = useState(undefined);
   const [size, setSize] = useState(undefined);
   const [wrongSlug, setWrongSlug] = useState(false);
-
-  const fetchProduct = async () => {
-    const slug = params.slug;
-    const fetchProductSlug = await service.getPostBySlug(slug, conf.appwriteMugsCollectionId);
-    if (fetchProductSlug.documents.length!=0) {
-      setWrongSlug(false);
-      setProductSlug(fetchProductSlug.documents[0]);
-      setColor(fetchProductSlug.documents[0].color);
-      setSize(fetchProductSlug.documents[0].size);
-      const products = await service.getPostsByName(
-        fetchProductSlug.documents[0].name, conf.appwriteMugsCollectionId
-      );
-      const documents = products.documents;
-      const availableProducts = documents.filter((item) => item.isAvailable);
-      const colorsizeslug = {};
-  
-      for (let item of availableProducts) {
-        if (Object.keys(colorsizeslug).includes(item.color)) {
-          colorsizeslug[item.color][item.size] = { slug: item.slug };
-        } else {
-          colorsizeslug[item.color] = {};
-          colorsizeslug[item.color][item.size] = { slug: item.slug };
-        }
-      }
-      setVariants(colorsizeslug);
-    }
-    else {
-      setWrongSlug(true);
-    }
-  };
 
   const refreshVariant = (newsize, newcolor) => {
     let url = `/product/mugs/${variants[newcolor][newsize]["slug"]}`;
@@ -121,6 +106,10 @@ function Product({ params }) {
 
   if (wrongSlug==true) {
     return <NotFound />;
+  }
+
+  if (loading) {
+    return <ProductLoadingSkeleton theme={"light"} />
   }
 
   return (
