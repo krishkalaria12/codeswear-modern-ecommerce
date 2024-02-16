@@ -245,7 +245,7 @@ export default function Component() {
                          <div className="absolute mt-2 w-32 p-2 bg-white border border-gray-300 rounded shadow">
                            <ul>
                              <Link href={"/myaccount"}><li className="py-1 dark:text-pink-600 cursor-pointer text-pink-500 font-bold">My Account</li></Link>
-                             <Link href={"/orders"}><li className="py-1 dark:text-pink-600 cursor-pointer text-pink-500 font-bold">Orders</li></Link>
+                             <Link href={"/myorders"}><li className="py-1 dark:text-pink-600 cursor-pointer text-pink-500 font-bold">Orders</li></Link>
                              <li onClick={handleLogout} className="py-1 dark:text-pink-600 cursor-pointer font-bold text-pink-500">Logout</li>
                            </ul>
                          </div>
@@ -284,7 +284,7 @@ export default function Component() {
         <ol className="list-decimal font-semibold">
           {Items.length!=0 && Items.map((item) =>  <li key={item.id}>
             <div className="item flex my-5">
-              <div className="w-2/3 font-semibold">{item.name}</div>
+              <div className="w-2/3 font-semibold">{item.name} / ({item.size} | {item.color})</div>
               <div className="flex font-semibold text-lg items-center justify-center w-1/3">
                 <span className="w-4">
                   <FaMinus onClick={handleIncreaseQuanity(item)} className="cursor-pointer text-[#DB2777] inline-flex items-center justify-center rounded-full" />

@@ -9,6 +9,8 @@ const conf = {
     appwriteHoodiesCollectionId: String(process.env.NEXT_PUBLIC_APPWRITE_HOODIES_COLLECTION_ID),
     appwriteOrdersCollectionId: String(process.env.NEXT_PUBLIC_APPWRITE_ORDERS_COLLECTION_ID),
     appwriteBucketId: String(process.env.NEXT_PUBLIC_APPWRITE_BUCKET_ID),
+    supabaseUrl: String(process.env.NEXT_PUBLIC_SUPABASE_URL),
+    supabaseAnionKey: String(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
 }
 
 export default conf

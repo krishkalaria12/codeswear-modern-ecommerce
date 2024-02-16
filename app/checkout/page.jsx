@@ -8,6 +8,8 @@ import ButtonForm from "@/components/form/Button";
 import Image from "next/image";
 import TrashIcon from "@/components/TrashIcon";
 import {toast, ToastContainer} from "react-toastify";
+import { v4 as uuidv4 } from 'uuid';
+import { createOrder } from "@/actions/createOrder";
 
 function Checkout() {
   const dispatch = useDispatch();
@@ -15,6 +17,18 @@ function Checkout() {
   const total = useSelector((state) => state.cart.total);
   const [noItem, setNoItem] = useState(false);
   const [firstRender, setFirstRender] = useState(true);
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    country: "",
+    city: "",
+    state: "",
+    postalCode: "",
+    flatno: "",
+    phoneno: "",
+    email: "",
+    id: "",
+  });
 
   useEffect(() => {
     setFirstRender(false);
@@ -33,12 +47,57 @@ function Checkout() {
     dispatch(removeItem(item));
   };
 
-  const handleSubmitCheckout = () => {
-    if (items.length===0) {
+  const handleSubmitCheckout = async () => {
+    if (items.length === 0) {
       toast.error("Your Cart is empty!");
+    } else if (!isValidPhoneNumber(formData.phoneno)) {
+      toast.error("Enter a valid 10 digit phone number");
+    } else if (!isValidPostalCode(formData.postalCode)) {
+      toast.error("Enter a valid 6 digit postal code");
+    } else if (!isValidEmail(formData.email)) {
+      toast.error("Enter a valid email");
+    } else if (
+      !formData.firstname ||
+      !formData.email ||
+      !formData.phoneno ||
+      !formData.lastname ||
+      !formData.city ||
+      !formData.country ||
+      !formData.postalCode ||
+      !formData.flatno ||
+      !formData.state
+    ) {
+      toast.error("Please Enter all the fields");
+    } else {
+      const id = uuidv4();
+      formData.id = id;
+      const res = await createOrder(formData);
+      console.log(res);
+      setFormData({
+        firstname: "",
+        lastname: "",
+        country: "",
+        city: "",
+        state: "",
+        postalCode: "",
+        flatno: "",
+        phoneno: "",
+        email: "",
+        id: "",
+      });
     }
+  };  
+  
+  const handleInputChange = (field, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
 
-  }
+  const isValidPhoneNumber = (phone) => /^\d{10}$/.test(phone);
+  const isValidPostalCode = (postalCode) => /^\d{6}$/.test(postalCode);
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   if (firstRender) {
     return <Loading />;
@@ -65,6 +124,8 @@ function Checkout() {
                   type="text"
                   key="firstname"
                   name="firstname"
+                  value={formData.firstname}
+                      onChange={(e) => handleInputChange("firstname", e.target.value)}
                 />
               </div>
               <div className="sm:w-2/5 w-full">
@@ -75,6 +136,8 @@ function Checkout() {
                   type="text"
                   key="lastname"
                   name="lastname"
+                  value={formData.lastname}
+                  onChange={(e) => handleInputChange("lastname", e.target.value)}
                 />
               </div>
             </div>
@@ -87,6 +150,8 @@ function Checkout() {
                   type="text"
                   key="country"
                   name="country"
+                  value={formData.country}
+                  onChange={(e) => handleInputChange("country", e.target.value)}
                 />
               </div>
               <div className="sm:w-2/5 w-full">
@@ -97,6 +162,8 @@ function Checkout() {
                   type="text"
                   key="city"
                   name="city"
+                  value={formData.city}
+                  onChange={(e) => handleInputChange("city", e.target.value)}
                 />
               </div>
             </div>
@@ -109,6 +176,8 @@ function Checkout() {
                   type="text"
                   key="state"
                   name="state"
+                  value={formData.state}
+                  onChange={(e) => handleInputChange("state", e.target.value)}
                 />
               </div>
               <div className="sm:w-2/5 w-full">
@@ -119,6 +188,8 @@ function Checkout() {
                   type="number"
                   key="postal"
                   name="postal"
+                  value={formData.postalCode}
+                  onChange={(e) => handleInputChange("postalCode", e.target.value)}
                 />
               </div>
             </div>
@@ -131,6 +202,8 @@ function Checkout() {
                   type="text"
                   key="flatnumber"
                   name="flatnumber"
+                  value={formData.flatno}
+                  onChange={(e) => handleInputChange("flatno", e.target.value)}
                 />
               </div>
               <div className="sm:w-2/5 w-full">
@@ -141,6 +214,8 @@ function Checkout() {
                   type="number"
                   key="phone"
                   name="phone"
+                  value={formData.phoneno}
+                  onChange={(e) => handleInputChange("phoneno", e.target.value)}
                 />
               </div>
             </div>
@@ -152,6 +227,8 @@ function Checkout() {
                 key="email"
                 type="email"
                 name="email"
+                value={formData.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
               />
             </div>
           </form>
@@ -191,7 +268,7 @@ function Checkout() {
                       </div>
                     </div>
                     <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                      ₹ {item.price}
+                      ₹ {item.price * item.quantity}
                     </p>
                     <span onClick={() => handleRemoveProduct(item)}>
                       <TrashIcon className="ml-4 h-5 w-5 text-gray-600 cursor-pointer dark:text-gray-400" />

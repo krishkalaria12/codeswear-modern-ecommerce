@@ -1,238 +1,189 @@
+import Testimonial from "@/components/Home/Testimonial";
+import Image from "next/image";
+import Link from "next/link";
 
 function Home() {
   return (
     <div className="bg-white dark:bg-gray-800">
-      <section class="text-black dark:text-gray-400 bg-white dark:bg-gray-800 body-font">
-        <div class="container mx-auto flex px-10 py-24 md:flex-row flex-col items-center">
-          <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-white">
-              Before they sold out
-              <br class="hidden lg:inline-block" />
-              readymade gluten
+      <section className="text-black dark:text-gray-400 bg-white dark:bg-gray-800 body-font">
+        <div className="container mx-auto flex px-10 py-10 md:flex-row flex-col items-center">
+          <div className="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+            <h1 className="title-font text-black sm:text-4xl text-3xl mb-4 font-medium dark:text-white">
+              Explore Trendy Apparel {" "}
+              <br className="hidden lg:inline-block" />
+              for Every Style
             </h1>
-            <p class="mb-8 leading-relaxed">
-              Copper mug try-hard pitchfork pour-over freegan heirloom neutra
-              air plant cold-pressed tacos poke beard tote bag. Heirloom echo
-              park mlkshk tote bag selvage hot chicken authentic tumeric
-              truffaut hexagon try-hard chambray.
+            <p className="mb-8 leading-relaxed">
+              Welcome to <span className="font-bond">CodesWear</span>, where style meets comfort! Discover a world of fashionable apparel, including trendy t-shirts, cozy sweatshirts, and stylish hoodies. Elevate your wardrobe with our premium collection of apparel that blends quality, comfort, and the latest fashion trends.
+              <br />
+              Embrace the perfect blend of style and functionality. Your journey to elevated fashion begins here at CodesWear. Browse our collection and redefine your style effortlessly.
             </p>
-            <div class="flex justify-center">
-              <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                Button
+            <div className="flex justify-center">
+              <button className="inline-flex text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded text-lg">
+                Shop Now
               </button>
-              <button class="ml-4 inline-flex text-gray-400 bg-gray-800 border-0 py-2 px-6 focus:outline-none hover:bg-gray-700 hover:text-white rounded text-lg">
-                Button
+              <button className="ml-4 inline-flex dark:text-white text-black dark:bg-gray-800 border-0 py-2 px-6 focus:outline-none hover:bg-gray-700 dark:hover:bg-gray-500 hover:text-white rounded text-lg">
+                Explore More
               </button>
             </div>
           </div>
-          <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-            <img
-              class="object-cover object-center rounded"
+          <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+            <Image
+              className="object-cover object-center rounded"
               alt="hero"
-              src="https://dummyimage.com/720x600"
+              width={500}
+              height={500}
+              src="/photo-1576566588028-4147f3842f27.avif"
             />
           </div>
         </div>
       </section>
-      <section class="text-black dark:text-gray-400 bg-white dark:bg-gray-800 body-font">
-        <div class="container px-5 py-24 mx-auto">
-          <div class="flex flex-wrap -mx-4 -mb-10 text-center">
-            <div class="sm:w-1/2 mb-10 px-4">
-              <div class="rounded-lg h-64 overflow-hidden">
-                <img
-                  alt="content"
-                  class="object-cover object-center h-full w-full"
-                  src="https://dummyimage.com/1201x501"
+      <section className="text-black dark:text-gray-400 bg-white dark:bg-gray-800 body-font">
+        <div className="container px-5 py-10 mx-auto">
+          <div className="flex flex-wrap -mx-4 -mb-10 text-center">
+            <div className="sm:w-1/2 mb-10 px-4">
+              <div className="rounded-lg h-96 overflow-hidden">
+                <Image
+                  alt="hoodie"
+                  width={300}
+                  height={300}
+                  className="rounded w-full object-cover object-center mb-2 transition-transform duration-300 hover:scale-110"
+                  src="/oversizedtshirt.webp"
                 />
               </div>
-              <h2 class="title-font text-2xl font-medium text-white mt-6 mb-3">
-                Buy YouTube Videos
+              <h2 className="title-font text-2xl font-medium text-white mt-6 mb-3">
+                Trendy T-Shirts
               </h2>
-              <p class="leading-relaxed text-base">
-                Williamsburg occupy sustainable snackwave gochujang. Pinterest
-                cornhole brunch, slow-carb neutra irony.
+              <p className="leading-relaxed text-base">
+                Explore our collection of stylish and comfortable t-shirts.
+                Perfect for casual wear and expressing your unique style.
               </p>
-              <button class="flex mx-auto mt-6 text-white bg-indigo-500 border-0 py-2 px-5 focus:outline-none hover:bg-indigo-600 rounded">
-                Button
-              </button>
+              <Link href={"/tshirts"}>
+                <button className="flex mx-auto mt-6 text-white bg-pink-500 border-0 py-2 px-5 focus:outline-none hover:bg-pink-600 rounded">
+                  Shop Now
+                </button>
+              </Link>
             </div>
-            <div class="sm:w-1/2 mb-10 px-4">
-              <div class="rounded-lg h-64 overflow-hidden">
-                <img
-                  alt="content"
-                  class="object-cover object-center h-full w-full"
-                  src="https://dummyimage.com/1202x502"
+            <div className="sm:w-1/2 mb-10 px-4">
+              <div className="rounded-lg h-96 overflow-hidden">
+                <Image
+                  alt="hoodie"
+                  width={300}
+                  height={300}
+                  className="rounded w-full object-cover object-center mb-2 transition-transform duration-300 hover:scale-110"
+                  src="/hoodiehome.webp"
                 />
               </div>
-              <h2 class="title-font text-2xl font-medium text-white mt-6 mb-3">
-                The Catalyzer
+              <h2 className="title-font text-2xl font-medium text-white mt-6 mb-3">
+                Cozy Hoodies
               </h2>
-              <p class="leading-relaxed text-base">
-                Williamsburg occupy sustainable snackwave gochujang. Pinterest
-                cornhole brunch, slow-carb neutra irony.
+              <p className="leading-relaxed text-base">
+                Stay warm and stylish with our collection of cozy hoodies.
+                Perfect for chilly days and relaxed weekends.
               </p>
-              <button class="flex mx-auto mt-6 text-white bg-indigo-500 border-0 py-2 px-5 focus:outline-none hover:bg-indigo-600 rounded">
-                Button
-              </button>
+              <Link href={"/hoodies"}>
+                <button className="flex mx-auto mt-6 text-white bg-pink-500 border-0 py-2 px-5 focus:outline-none hover:bg-pink-600 rounded">
+                  Shop Now
+                </button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
-      <section class="text-black dark:text-gray-400 bg-white dark:bg-gray-800 body-font">
-        <div class="container px-5 py-24 mx-auto flex flex-wrap">
-          <div class="flex flex-col text-center w-full mb-20">
-            <h2 class="text-xs text-indigo-400 tracking-widest font-medium title-font mb-1">
-              ROOF PARTY POLAROID
-            </h2>
-            <h1 class="sm:text-3xl text-2xl font-medium title-font text-white">
-              Master Cleanse Reliac Heirloom
+      <section className="text-black dark:text-gray-400 bg-white dark:bg-gray-800 body-font">
+        <div className="container px-5 py-10 mx-auto flex flex-wrap">
+          <div className="flex flex-col text-center w-full mb-20">
+            <h1 className="sm:text-3xl text-gray-800 text-2xl font-medium title-font dark:text-white">
+            Simplified Shopping, Seamless Satisfaction
             </h1>
+            <h2 className="text-sm mt-3 text-pink-600 dark:text-pink-400 tracking-widest font-medium title-font mb-1">
+            Enhanced E-Commerce Experience: Elevating Every Interaction
+            </h2>
           </div>
-          <div class="flex flex-wrap -m-4">
-            <div class="p-4 md:w-1/4">
-              <div class="flex rounded-lg h-full bg-gray-800 bg-opacity-60 p-8 flex-col">
-                <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full  text-white flex-shrink-0">
-                    <SettingsIcon className="h-8 w-8 text-gray-800 dark:text-white" />
-                  </div>
-                  <h2 class="text-white text-lg title-font font-medium">
-                    Shooting Stars
-                  </h2>
-                </div>
-                <div class="flex-grow">
-                  <p class="leading-relaxed text-base">
-                    Blue bottle crucifix vinyl post-ironic four dollar toast
-                    vegan taxidermy. Gastropub indxgo juice poutine.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="p-4 md:w-1/4">
-              <div class="flex rounded-lg h-full bg-gray-800 bg-opacity-60 p-8 flex-col">
-                <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full  text-white flex-shrink-0">
-                    <CheckIcon className="h-8 w-8 text-gray-800 dark:text-white" />
-                  </div>
-                  <h2 class="text-white text-lg title-font font-medium">
-                    The Catalyzer
-                  </h2>
-                </div>
-                <div class="flex-grow">
-                  <p class="leading-relaxed text-base">
-                    Blue bottle crucifix vinyl post-ironic four dollar toast
-                    vegan taxidermy. Gastropub indxgo juice poutine.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="p-4 md:w-1/4">
-              <div class="flex rounded-lg h-full bg-gray-800 bg-opacity-60 p-8 flex-col">
-                <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full  text-white flex-shrink-0">
-                    <CheckIcon className="h-8 w-8 text-gray-800 dark:text-white" />
-                  </div>
-                  <h2 class="text-white text-lg title-font font-medium">
-                    The Catalyzer
-                  </h2>
-                </div>
-                <div class="flex-grow">
-                  <p class="leading-relaxed text-base">
-                    Blue bottle crucifix vinyl post-ironic four dollar toast
-                    vegan taxidermy. Gastropub indxgo juice poutine.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="p-4 md:w-1/4">
-              <div class="flex rounded-lg h-full bg-gray-800 bg-opacity-60 p-8 flex-col">
-                <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full text-white flex-shrink-0">
-                    <LockIcon className="h-8 w-8 text-gray-800 dark:text-white" />
-                  </div>
-                  <h2 class="text-white text-lg title-font font-medium">
-                    Neptune
-                  </h2>
-                </div>
-                <div class="flex-grow">
-                  <p class="leading-relaxed text-base">
-                    Blue bottle crucifix vinyl post-ironic four dollar toast
-                    vegan taxidermy. Gastropub indxgo juice poutine.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <section class="text-gray-600 body-font">
+  <div class="container px-5 mx-auto flex flex-wrap">
+    <div class="flex relative pt-10 pb-20 sm:items-center md:w-2/3 mx-auto">
+      <div class="h-full w-6 absolute inset-0 flex items-center justify-center">
+        <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+      </div>
+      <div class="flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center bg-indigo-500 text-white relative z-10 title-font font-medium text-sm">1</div>
+      <div class="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
+        <div class="flex-shrink-0 w-24 h-24 dark:bg-gray-900 bg-indigo-100 text-indigo-500 dark:text-indigo-700 rounded-full inline-flex items-center justify-center">
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-12 h-12" viewBox="0 0 24 24">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <div class="flex-grow sm:pl-6 mt-6 sm:mt-0">
+          <h2 class="title-font text-gray-900 mb-1 text-xl dark:text-gray-300 font-bold">Curated Collections</h2>
+          <p class="leading-relaxed dark:text-gray-400 text-gray-600">Discover thoughtfully curated product selections that align with the latest trends and your unique style.</p>
+        </div>
+      </div>
+    </div>
+    <div class="flex relative pb-20 sm:items-center md:w-2/3 mx-auto">
+      <div class="h-full w-6 absolute inset-0 flex items-center justify-center">
+        <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+      </div>
+      <div class="flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center bg-indigo-500 text-white relative z-10 title-font font-medium text-sm">2</div>
+      <div class="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
+        <div class="flex-shrink-0 w-24 h-24 dark:bg-gray-900 bg-indigo-100 text-indigo-500 dark:text-indigo-700 rounded-full inline-flex items-center justify-center">
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-12 h-12" viewBox="0 0 24 24">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+        </div>
+        <div class="flex-grow sm:pl-6 mt-6 sm:mt-0">
+          <h2 class="title-font text-gray-900 mb-1 text-xl dark:text-gray-300 font-bold">Effortless Navigation</h2>
+          <p class="leading-relaxed dark:text-gray-400 text-gray-600">Seamlessly browse through our user-friendly interface for a hassle-free shopping experience.</p>
+        </div>
+      </div>
+    </div>
+    <div class="flex relative pb-20 sm:items-center md:w-2/3 mx-auto">
+      <div class="h-full w-6 absolute inset-0 flex items-center justify-center">
+        <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+      </div>
+      <div class="flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center bg-indigo-500 text-white relative z-10 title-font font-medium text-sm">3</div>
+      <div class="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
+        <div class="flex-shrink-0 w-24 h-24 dark:bg-gray-900 bg-indigo-100 text-indigo-500 dark:text-indigo-700 rounded-full inline-flex items-center justify-center">
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-12 h-12" viewBox="0 0 24 24">
+            <circle cx="12" cy="5" r="3"></circle>
+            <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"></path>
+          </svg>
+        </div>
+        <div class="flex-grow sm:pl-6 mt-6 sm:mt-0">
+          <h2 class="title-font text-gray-900 mb-1 text-xl dark:text-gray-300 font-bold">Secure Transactions</h2>
+          <p class="leading-relaxed dark:text-gray-400 text-gray-600">Shop with confidence knowing that your transactions are secure, ensuring a safe and trustworthy buying process</p>
+        </div>
+      </div>
+    </div>
+    <div class="flex relative pb-10 sm:items-center md:w-2/3 mx-auto">
+      <div class="h-full w-6 absolute inset-0 flex items-center justify-center">
+        <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+      </div>
+      <div class="flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center bg-indigo-500 text-white relative z-10 title-font font-medium text-sm">4</div>
+      <div class="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
+        <div class="flex-shrink-0 w-24 h-24 dark:bg-gray-900 bg-indigo-100 text-indigo-500 dark:text-indigo-700 rounded-full inline-flex items-center justify-center">
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-12 h-12" viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <div class="flex-grow sm:pl-6 mt-6 sm:mt-0">
+          <h2 class="title-font text-gray-900 mb-1 text-xl dark:text-gray-300 font-bold">Streamlined Shopping: Elevate Your Experience</h2>
+          <p class="leading-relaxed dark:text-gray-400 text-gray-600">Simplify your shopping experience with our intuitive interface. Effortless navigation, seamless transactions, and curated collections - delivering an unparalleled user experience at your fingertips.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
         </div>
       </section>
-
-      <section class="text-black dark:text-gray-400 bg-white dark:bg-gray-800 body-font">
-        <div class="container px-5 py-24 mx-auto">
-          <h1 class="text-3xl font-medium title-font text-white mb-12 text-center">
-            Testimonials
+      <section className=" dark:text-gray-400 bg-white dark:bg-gray-800 body-font text-gray-600">
+        <div className="container px-5 py-10 mx-auto">
+          <h1 className="text-3xl text-gray-900 font-medium title-font dark:text-white mb-12 text-center">
+            Customer Reviews
           </h1>
-          <div class="flex flex-wrap -m-4">
-            <div class="p-4 md:w-1/2 w-full">
-              <div class="h-full bg-gray-800 bg-opacity-40 p-8 rounded">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  class="block w-5 h-5 text-gray-500 mb-4"
-                  viewBox="0 0 975.036 975.036"
-                >
-                  <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
-                </svg>
-                <p class="leading-relaxed mb-6">
-                  Synth chartreuse iPhone lomo cray raw denim brunch everyday
-                  carry neutra before they sold out fixie 90's microdosing.
-                  Tacos pinterest fanny pack venmo, post-ironic heirloom
-                  try-hard pabst authentic iceland.
-                </p>
-                <a class="inline-flex items-center">
-                  <img
-                    alt="testimonial"
-                    src="https://dummyimage.com/106x106"
-                    class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-center"
-                  />
-                  <span class="flex-grow flex flex-col pl-4">
-                    <span class="title-font font-medium text-white">
-                      Holden Caulfield
-                    </span>
-                    <span class="text-gray-500 text-sm">UI DEVELOPER</span>
-                  </span>
-                </a>
-              </div>
-            </div>
-            <div class="p-4 md:w-1/2 w-full">
-              <div class="h-full bg-gray-800 bg-opacity-40 p-8 rounded">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  class="block w-5 h-5 text-gray-500 mb-4"
-                  viewBox="0 0 975.036 975.036"
-                >
-                  <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
-                </svg>
-                <p class="leading-relaxed mb-6">
-                  Synth chartreuse iPhone lomo cray raw denim brunch everyday
-                  carry neutra before they sold out fixie 90's microdosing.
-                  Tacos pinterest fanny pack venmo, post-ironic heirloom
-                  try-hard pabst authentic iceland.
-                </p>
-                <a class="inline-flex items-center">
-                  <img
-                    alt="testimonial"
-                    src="https://dummyimage.com/107x107"
-                    class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-center"
-                  />
-                  <span class="flex-grow flex flex-col pl-4">
-                    <span class="title-font font-medium text-white">
-                      Alper Kamu
-                    </span>
-                    <span class="text-gray-500 text-sm">DESIGNER</span>
-                  </span>
-                </a>
-              </div>
-            </div>
+          <div className="flex flex-wrap -m-4">
+            <Testimonial name={"Krish"} description={"Exceptional quality and on-trend styles! I love the t-shirt I bought from CodesWear. Comfortable, stylish, and delivered with speed. A go-to destination for fashion-forward shopping!"} />
+            <Testimonial description={"Excellent quality! The t-shirt I bought is super comfortable and the print is vibrant. Will definitely shop here again."} name={"Emily Johnson"} />
           </div>
         </div>
       </section>
