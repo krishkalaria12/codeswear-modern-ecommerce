@@ -1,6 +1,7 @@
 import service from "@/lib/appwrite/dbConfig"
+import { createOrderForProducts } from "@/lib/supabase/dbconfig";
 
-export const createOrder = async (formData) => {
+export const createOrder = async (formData, items) => {
     try {
         const createOrderDetails = await service.createOrder({
             firstname: formData.firstname,
@@ -13,8 +14,17 @@ export const createOrder = async (formData) => {
             state: formData.state,
             orderid: formData.id,
             postalCode: formData.postalCode,
+            userid: formData.userid
         });
-        return createOrderDetails
+        const arrayofObj = [];
+        const compressedItems = {};
+        items.forEach((item, index) => {
+            const key = `item${index + 1}`;
+            compressedItems[key] = item;
+            arrayofObj.push(compressedItems)
+        });
+        const createOrderProduct = await createOrderForProducts(arrayofObj, formData.id, formData.userid)
+        return {createOrderDetails, createOrderProduct}
     } catch (error) {
         console.error(error);
     }

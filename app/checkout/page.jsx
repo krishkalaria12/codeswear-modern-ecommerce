@@ -10,11 +10,14 @@ import TrashIcon from "@/components/TrashIcon";
 import {toast, ToastContainer} from "react-toastify";
 import { v4 as uuidv4 } from 'uuid';
 import { createOrder } from "@/actions/createOrder";
+import accountDetails from "@/actions/getUser";
 
 function Checkout() {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.cart.items);
   const total = useSelector((state) => state.cart.total);
+  const [user, setUser] = useState(false);
+  const [userId, setUserId] = useState("");
   const [noItem, setNoItem] = useState(false);
   const [firstRender, setFirstRender] = useState(true);
   const [formData, setFormData] = useState({
@@ -28,10 +31,22 @@ function Checkout() {
     phoneno: "",
     email: "",
     id: "",
+    userid: "",
   });
 
   useEffect(() => {
     setFirstRender(false);
+    const userData = async () => {
+      const data = await accountDetails();
+      if (data!=null) {
+        setUser(true);
+        setUserId(data.$id);
+      }
+      else {
+        setNoItem(true);
+      }
+    }
+    userData();
   }, []);
 
   useEffect(() => {
@@ -46,6 +61,7 @@ function Checkout() {
   const handleRemoveProduct = (item) => {
     dispatch(removeItem(item));
   };
+  // console.log(items);
 
   const handleSubmitCheckout = async () => {
     if (items.length === 0) {
@@ -56,6 +72,8 @@ function Checkout() {
       toast.error("Enter a valid 6 digit postal code");
     } else if (!isValidEmail(formData.email)) {
       toast.error("Enter a valid email");
+    } else if (user==false) {
+      toast.error("Please Login before Checkout");
     } else if (
       !formData.firstname ||
       !formData.email ||
@@ -71,7 +89,8 @@ function Checkout() {
     } else {
       const id = uuidv4();
       formData.id = id;
-      const res = await createOrder(formData);
+      formData.userid = userId;
+      const res = await createOrder(formData, items);
       console.log(res);
       setFormData({
         firstname: "",
@@ -84,6 +103,7 @@ function Checkout() {
         phoneno: "",
         email: "",
         id: "",
+        userid: "",
       });
     }
   };  
@@ -199,7 +219,7 @@ function Checkout() {
                   readOnly={false}
                   placeholder="Flat No, Street No"
                   label="Enter the Flat No"
-                  type="text"
+                  type="number"
                   key="flatnumber"
                   name="flatnumber"
                   value={formData.flatno}
