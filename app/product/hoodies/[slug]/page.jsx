@@ -37,7 +37,7 @@ function Product({ params }) {
     const fetchProductThroughServer = async () => {
       try {
         const slug = params.slug
-        const data = await fetchProduct(slug,"hoodiess");
+        const data = await fetchProduct(slug,"hoodies");
         setVariants(data.Variants);
         setColor(data.Color);
         setSize(data.Size);

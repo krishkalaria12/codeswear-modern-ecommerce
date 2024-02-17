@@ -1,62 +1,212 @@
-import React from "react";
-import Link from "next/link";
+"use client";
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
+import {
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableCell,
+  TableBody,
+  Table,
+} from "@/components/ui/table";
+import { Separator } from "@/components/ui/separator";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import accountDetails from "@/actions/getUser";
+import { getOrder } from "@/actions/getOrderDetails";
+import Loading from "../Loading";
 
 function Order() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [contact, setContact] = useState({});
+
+  useEffect(() => {
+    const orderid = searchParams.get("orderid");
+
+    const orderDetails = async () => {
+      try {
+        const userData = await accountDetails();
+
+        if (userData) {
+          const id = userData.$id;
+          const { orderSupabase, orderAppwrite } = await getOrder(id, orderid);
+          const orderAppwriteOrder = orderAppwrite.documents[0];
+          setContact(orderAppwriteOrder);
+          setProducts(orderSupabase);
+          setLoading(false);
+        } else {
+          router.push("/login");
+        }
+      } catch (error) {
+        console.error("Error fetching order details:", error);
+        setLoading(false);
+      }
+    };
+
+    orderDetails();
+  }, []);
+
+  const dateToString = (date) => {
+    const dateObject = new Date(date);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const formattedDate = dateObject.toLocaleDateString("en-US", options);
+    return formattedDate;
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
-    <section class="text-gray-400 dark:bg-gray-900 body-font overflow-hidden">
-      <div class="container px-5 py-24 mx-auto">
-        <div class="lg:w-4/5 mx-auto flex flex-wrap">
-          <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-            <h2 class="text-sm title-font text-gray-500 tracking-widest">
-              BRAND NAME
-            </h2>
-            <h1 class="text-white text-3xl title-font font-medium mb-4">
-              Animated Night Hill Illustrations
-            </h1>
-            <div class="flex mb-4">
-              <span class="flex-grow text-pink-400 border-b-2 border-pink-500 py-2 text-lg px-1">
-                Description
-              </span>
-            </div>
-            <p class="leading-relaxed mb-4">
-              Fam locavore kickstarter distillery. Mixtape chillwave tumeric
-              sriracha taximy chia microdosing tilde DIY. XOXO fam iligo
-              juiceramps cornhole raw denim forage brooklyn. Everyday carry +1
-              seitan poutine tumeric. Gastropub blue bottle austin listicle
-              pour-over, neutra jean.
-            </p>
-            <div class="flex border-t border-gray-800 py-2">
-              <span class="text-gray-800 dark:text-gray-400">Color</span>
-              <span class="ml-auto text-black dark:text-white">Blue</span>
-            </div>
-            <div class="flex border-t border-gray-800 py-2">
-              <span class="text-gray-800 dark:text-gray-400">Size</span>
-              <span class="ml-auto text-black dark:text-white">Medium</span>
-            </div>
-            <div class="flex border-t border-b mb-6 border-gray-800 py-2">
-              <span class="text-gray-800 dark:text-gray-400">Quantity</span>
-              <span class="ml-auto text-black dark:text-white">4</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="title-font font-medium text-2xl text-white">
-                $58.00
-              </span>
-              <Link href={"/myorders"}>
-                <button class="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">
-                    My Orders
-                </button>
-              </Link>
-              
-            </div>
+    <div className="flex flex-col gap-4 p-4 lg:gap-8 lg:p-6 min-h-screen">
+      <div className="flex items-center gap-4">
+        <h1 className="font-semibold text-lg md:text-xl">
+          OrderID - #{contact.orderid} -
+          <span className="font-normal text-pink-600 dark:text-pink-600">
+            {contact.firstname} {contact.lastname}{" "}
+          </span>
+          <span className="font-normal text-pink-600 dark:text-pink-600">
+            on {dateToString(contact.$createdAt)}
+          </span>
+        </h1>
+      </div>
+      <div className="flex flex-col md:grid md:grid-cols-6 gap-6">
+        {products.length > 0 && (
+          <div
+            key={products[0].id}
+            className="md:col-span-4 lg:col-span-3 xl:col-span-4 flex flex-col gap-6"
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle>Products {products[0].products.length}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[80px] hidden md:table-cell">
+                        Image
+                      </TableHead>
+                      <TableHead className="max-w-[150px]">Name</TableHead>
+                      <TableHead>Quantity</TableHead>
+                      <TableHead>Total</TableHead>
+                      <TableHead />
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {products[0].products.map((productGroup, index) => {
+                      return Object.values(productGroup).map(
+                        (product, innerIndex) => {
+                          const itemName = product.name;
+                          const itemQuantity = product.quantity;
+                          const itemTotal = product.discountedPrice.toFixed(2);
+                          const itemImage = product.image;
+
+                          return (
+                            <TableRow key={`${index}-${innerIndex}`}>
+                              <TableCell className="hidden md:table-cell">
+                                <img
+                                  alt="Product image"
+                                  className="aspect-square rounded-md object-cover"
+                                  height="64"
+                                  src={itemImage}
+                                  width="64"
+                                />
+                              </TableCell>
+                              <TableCell className="font-medium">
+                                {itemName}
+                              </TableCell>
+                              <TableCell>{itemQuantity}</TableCell>
+                              <TableCell>₹ {itemTotal}</TableCell>
+                              <TableCell className="hidden md:table-cell" />
+                            </TableRow>
+                          );
+                        }
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Payment</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-4">
+                <div className="flex items-center">
+                  <div>Subtotal</div>
+                  <div className="ml-auto">₹ {contact.totalPrice}</div>
+                </div>
+                <Separator />
+                <div className="flex items-center font-medium">
+                  <div>Total</div>
+                  <div className="ml-auto">₹ {contact.totalPrice}</div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-          <img
-            alt="ecommerce"
-            class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-            src="https://dummyimage.com/400x400"
-          />
+        )}
+
+        <div className="md:col-span-2 lg:col-span-3 xl:col-span-2 flex flex-col gap-6">
+          <Card>
+            <div>
+              <CardHeader className="flex flex-row items-center space-y-0">
+                <CardTitle>Customer</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm">
+                <div className="grid gap-1">
+                  <p className="text-pink-600 text-lg">
+                    {contact.firstname} {contact.lastname}
+                  </p>
+                </div>
+              </CardContent>
+            </div>
+            <Separator />
+            <div>
+              <CardHeader>
+                <CardTitle>Contact information</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm">
+                <div className="grid gap-1">
+                  <p className="text-pink-600">{contact.email}</p>
+                  <div className="text-pink-600 dark:text-pink-600">
+                    +91 {contact.phoneno}
+                  </div>
+                </div>
+              </CardContent>
+            </div>
+            <Separator />
+            <div>
+              <CardHeader>
+                <CardTitle>Shipping address</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm">
+                <div>
+                  {contact.firstname} {contact.lastname}
+                  <br />
+                  {contact.flatno} , {contact.address}
+                  <br />
+                  {contact.postalCode}
+                  <br />
+                  {contact.state}, {contact.country}
+                </div>
+              </CardContent>
+            </div>
+            <Separator />
+            <div>
+              <CardHeader>
+                <CardTitle>Billing address</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm">
+                Same as shipping address
+              </CardContent>
+            </div>
+          </Card>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

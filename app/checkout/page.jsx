@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeItem } from "@/redux/features/Cartslice";
+import { removeItem, clearCart } from "@/redux/features/Cartslice";
 import Loading from "../Loading";
 import InputForm from "@/components/form/Input";
 import ButtonForm from "@/components/form/Button";
@@ -11,9 +11,12 @@ import {toast, ToastContainer} from "react-toastify";
 import { v4 as uuidv4 } from 'uuid';
 import { createOrder } from "@/actions/createOrder";
 import accountDetails from "@/actions/getUser";
+import TextArea from "@/components/form/TextArea";
+import { useRouter } from "next/navigation";
 
 function Checkout() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const items = useSelector((state) => state.cart.items);
   const total = useSelector((state) => state.cart.total);
   const [user, setUser] = useState(false);
@@ -32,6 +35,8 @@ function Checkout() {
     email: "",
     id: "",
     userid: "",
+    totalPrice: "",
+    address: "",
   });
 
   useEffect(() => {
@@ -61,7 +66,6 @@ function Checkout() {
   const handleRemoveProduct = (item) => {
     dispatch(removeItem(item));
   };
-  // console.log(items);
 
   const handleSubmitCheckout = async () => {
     if (items.length === 0) {
@@ -83,15 +87,19 @@ function Checkout() {
       !formData.country ||
       !formData.postalCode ||
       !formData.flatno ||
-      !formData.state
+      !formData.state || !formData.address
     ) {
       toast.error("Please Enter all the fields");
     } else {
       const id = uuidv4();
       formData.id = id;
       formData.userid = userId;
+      formData.totalPrice = total+50+40;
       const res = await createOrder(formData, items);
-      console.log(res);
+      if (res) {
+        router.push(`/order?orderid=${id}`)
+      }
+      dispatch(clearCart());
       setFormData({
         firstname: "",
         lastname: "",
@@ -104,6 +112,8 @@ function Checkout() {
         email: "",
         id: "",
         userid: "",
+        totalPrice: "",
+        address: "",
       });
     }
   };  
@@ -249,6 +259,15 @@ function Checkout() {
                 name="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
+              />
+            </div>
+
+            <div>
+              <TextArea
+                placeholder="Enter your Address"
+                label="Enter your Address"
+                value={formData.address}
+                onChange={(e) => handleInputChange("address", e.target.value)}
               />
             </div>
           </form>

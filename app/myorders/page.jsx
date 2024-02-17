@@ -1,22 +1,46 @@
-'use client'
-import React, { useEffect, useState } from "react";
-import { ReadAllOrders } from "@/lib/supabase/dbconfig";
+'use client';
+import React, { useEffect, useState } from 'react';
+import { ReadAllOrders } from '@/lib/supabase/dbconfig';
+import accountDetails from '@/actions/getUser';
+import { useRouter } from 'next/navigation';
+import Loading from '../Loading';
+import Link from 'next/link';
 
 function MyOrders() {
+
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await ReadAllOrders();
-        setOrders(res); 
+        const data = await accountDetails();
+        if (data) {
+          const id = data.$id;
+          const res = await ReadAllOrders(id);
+          setOrders(res);
+          console.log(orders);
+          setLoading(false); 
+        }
+        else {
+          router.push("/login")
+        }
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        console.error('Error fetching orders:', error);
+        setLoading(false);
       }
     };
 
     fetchOrders();
   }, []);
+
+  if (loading) {
+    return <Loading />
+  }
+
+  console.log(orders);
 
   return (
     <div className="bg-white dark:bg-gray-800 min-h-screen">
@@ -44,37 +68,29 @@ function MyOrders() {
                   <th className="h-12 px-4 align-middle [&:has([role=checkbox])]:pr-0 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     CREATED AT
                   </th>
-                  <th className="h-12 px-4 align-middle [&:has([role=checkbox])]:pr-0 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    QRT
-                  </th>
-                  <th className="h-12 px-4 align-middle [&:has([role=checkbox])]:pr-0 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    STATUS
-                  </th>
+                  
                 </tr>
               </thead>
               <tbody className="[&_tr:last-child]:border-0">
-                {/* Dynamic rows based on orders */}
-                {orders.map((order) => (
-                  <tr key={order.id} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                {orders != [] && orders.map((order) => (
+                  <Link href={`/order?orderid=${order.slug}`}>
+                    <tr key={order.id} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-                      {/* Render order details */}
-                      {order.name}
+                      {order.slug}
                     </td>
                     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-                      {order.products.join(", ")}
+                      {order.products.map((product) => (
+                        <div key={product.item1.id}>
+                          {product.item1.name}, {product.item2.name}
+                        </div>
+                      ))}
                     </td>
                     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
                       {new Date(order.created_at).toLocaleDateString()}
                     </td>
-                    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-                      {order.qrt}
-                    </td>
-                    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-                      <div className={`inline-flex items-center rounded-full whitespace-nowrap border px-2.5 py-0.5 w-fit text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent ${order.status === "Activo" ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80' : 'bg-primary text-primary-foreground hover:bg-primary/80'}`}>
-                        {order.status}
-                      </div>
-                    </td>
+                    
                   </tr>
+                  </Link>
                 ))}
               </tbody>
             </table>
