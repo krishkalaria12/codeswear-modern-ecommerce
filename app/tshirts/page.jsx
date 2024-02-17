@@ -3,11 +3,13 @@ import Card from '@/components/Card'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import fetchData from '@/actions/getAllProducts';
+import { useSelector } from 'react-redux';
 import AllProductSkeleton from '@/components/skeletons/AllProductSkeleton';
 
 function Tshirts() {
     const [tshirts, setTshirts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const isDark = useSelector((state) => state.theme.isDark);
 
     useEffect(() => {
         const fetchDataForTshirts = async () => {
@@ -26,7 +28,7 @@ function Tshirts() {
     return (
         <div className="dark:bg-[#1F2937] bg-white p-8">
             {loading ? (
-                <AllProductSkeleton theme={"dark"} />
+                <AllProductSkeleton theme={isDark ? 'dark' : 'light'} />
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {tshirts.map((tshirt, index) => (
