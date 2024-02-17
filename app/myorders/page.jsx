@@ -5,11 +5,13 @@ import accountDetails from '@/actions/getUser';
 import { useRouter } from 'next/navigation';
 import Loading from '../Loading';
 import Link from 'next/link';
+import ErrorPage from '@/components/pages/error';
 
 function MyOrders() {
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [Error, setError] = useState(true);
 
   const router = useRouter();
 
@@ -20,9 +22,15 @@ function MyOrders() {
         if (data) {
           const id = data.$id;
           const res = await ReadAllOrders(id);
-          setOrders(res);
-          console.log(orders);
-          setLoading(false); 
+          if (res) {
+            setError(false);
+            setOrders(res);
+            console.log(orders);
+            setLoading(false); 
+          }
+          else {
+            setError(true);
+          }
         }
         else {
           router.push("/login")
@@ -30,6 +38,7 @@ function MyOrders() {
       } catch (error) {
         console.error('Error fetching orders:', error);
         setLoading(false);
+        setError(true);
       }
     };
 
@@ -40,7 +49,9 @@ function MyOrders() {
     return <Loading />
   }
 
-  console.log(orders);
+  if (Error) {
+    return <ErrorPage />
+  }
 
   return (
     <div className="bg-white dark:bg-gray-800 min-h-screen">

@@ -14,38 +14,55 @@ import { useEffect, useState } from "react";
 import accountDetails from "@/actions/getUser";
 import { getOrder } from "@/actions/getOrderDetails";
 import Loading from "../Loading";
+import NotFound from "../product/not-found";
+import ErrorPage from "@/components/pages/error";
 
 function Order() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [Error, setError] = useState(true);
   const [contact, setContact] = useState({});
+  const [noSlug, setNoSlug] = useState(false);
 
   useEffect(() => {
     const orderid = searchParams.get("orderid");
+    if (!orderid) {
+      setLoading(false);
+      setError(false);
+      setNoSlug(true);
+    }
+    else {
+      setNoSlug(false);
+      const orderDetails = async () => {
+        try {
+          const userData = await accountDetails();
 
-    const orderDetails = async () => {
-      try {
-        const userData = await accountDetails();
-
-        if (userData) {
-          const id = userData.$id;
-          const { orderSupabase, orderAppwrite } = await getOrder(id, orderid);
-          const orderAppwriteOrder = orderAppwrite.documents[0];
-          setContact(orderAppwriteOrder);
-          setProducts(orderSupabase);
+          if (userData) {
+            const id = userData.$id;
+            const { orderSupabase, orderAppwrite } = await getOrder(id, orderid);
+            if (orderSupabase && orderAppwrite) {
+              const orderAppwriteOrder = orderAppwrite.documents[0];
+              setContact(orderAppwriteOrder);
+              setProducts(orderSupabase);
+              setError(false);
+            }
+            else {
+              setError(true);
+            }
+            setLoading(false);
+          } else {
+            router.push("/login");
+          }
+        } catch (error) {
+          console.error("Error fetching order details:", error);
+          setError(true);
           setLoading(false);
-        } else {
-          router.push("/login");
         }
-      } catch (error) {
-        console.error("Error fetching order details:", error);
-        setLoading(false);
-      }
-    };
-
-    orderDetails();
+      };
+      orderDetails();
+    }
   }, []);
 
   const dateToString = (date) => {
@@ -57,6 +74,14 @@ function Order() {
 
   if (loading) {
     return <Loading />;
+  }
+
+  if (noSlug) {
+    return <NotFound />
+  }
+
+  if (Error) {
+    return <ErrorPage />
   }
 
   return (
