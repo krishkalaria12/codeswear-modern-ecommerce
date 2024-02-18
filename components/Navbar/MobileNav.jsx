@@ -64,18 +64,6 @@ function MobileNav({toggleNav, searchVisible, toggle }) {
           ) : null}
         </div>
       </div>
-      {searchVisible ? (
-        <div className="flex space-x-2">
-          <input
-            className="ml-3 py-2 text-black px-4 border border-gray-600 rounded-md w-72 focus:border-[#DB2777] focus:outline-none"
-            placeholder="Search from our 1000+ designs"
-            type="text"
-          />
-          <div className="bg-[#DB2777] p-2 rounded-full hover:bg-[#9B104E] cursor-pointer inline-flex items-center justify-center">
-            <SearchIcon className="text-white h-6 w-6" />
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }

@@ -27,14 +27,16 @@ export default function RootLayout({ children }) {
             <ProvidersProgress>
               <Navbar />
                 <main className="w-full dark:bg-[#111827]">
-                  <Suspense fallback={<Loading />}>{children}</Suspense>
+                  <Suspense fallback={<Loading />}>
+                    {children}
+                    <Analytics />
+                  </Suspense>
                 </main>
               <Footer />
             </ProvidersProgress>
           </Providers>
         </Provider>
         <SpeedInsights />
-        <Analytics />
       </body>
     </html>
   );
