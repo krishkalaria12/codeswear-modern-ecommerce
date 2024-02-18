@@ -12,6 +12,7 @@ import { login } from "@/redux/features/authSlice";
 import ButtonForm from "@/components/form/Button";
 import Image from "next/image";
 import Loading from "../Loading";
+import accountDetails from "@/actions/getUser";
 
 function Login() {
   const dispatch = useDispatch();
