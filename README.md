@@ -11,6 +11,7 @@ Welcome to Codeswear, your go-to destination for modern and stylish apparel! Thi
 - 🛒 **Shopping Cart**: A fully functional shopping cart with a smooth checkout process.
 - 💳 **Payment Gateway Integration**: Seamless paytm gateway integration for secure and convenient transactions.
 - 🔄 **Database Integration with [Appwrite](https://github.com/appwrite/appwrite)**: Robust backend support for product fetching and management.
+- 📊 **Database Management with [Supabase](https://supabase.io/)**: Integration for order checkout and listing.
 - 🔒 **Authentication & Authorization**: Secure user authentication and authorization mechanisms.
 
 ## Prerequisites
@@ -44,6 +45,9 @@ NEXT_PUBLIC_APPWRITE_TSHIRTS_COLLECTION_ID=""
 NEXT_PUBLIC_APPWRITE_HOODIES_COLLECTION_ID=""
 NEXT_PUBLIC_APPWRITE_ORDERS_COLLECTION_ID=""
 NEXT_PUBLIC_APPWRITE_BUCKET_ID=""
+NEXT_PUBLIC_SUPABASE_URL="https://vbzrhscnjbybcdumtvoq.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY=""
+NEXT_PUBLIC_HOST=""
 ```
 
 ## Available Commands
@@ -55,12 +59,10 @@ Running commands with npm `npm run [command]`
 | `dev`           | Starts a development instance of the app |
 
 ## Checkout and Order Pages
+Enhance your shopping experience with dedicated checkout and order pages. The seamless integration of Paytm Gateway and Supabase ensures secure transactions and efficient order management.
 
-Enhance your shopping experience with dedicated checkout and order pages. The seamless integration of Paytm Gateway ensures secure transactions, making your purchasing process quick and reliable.
-
-## Database Management with Appwrite
-
-Utilizing the power of Appwrite for backend support, Codeswear ensures a robust database structure. Products are intelligently categorized based on size and color, providing a dynamic and user-friendly shopping experience.
+## Database Management with Appwrite and Supabase
+Utilizing the power of Appwrite for product management and Supabase for order tracking, Codeswear ensures a robust and comprehensive backend structure.
 
 ## Contributing
 
