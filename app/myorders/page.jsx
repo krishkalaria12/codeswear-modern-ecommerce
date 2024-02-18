@@ -1,14 +1,13 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import { ReadAllOrders } from '@/lib/supabase/dbconfig';
-import accountDetails from '@/actions/getUser';
-import { useRouter } from 'next/navigation';
-import Loading from '../Loading';
-import Link from 'next/link';
-import ErrorPage from '@/components/pages/error';
+"use client";
+import React, { useEffect, useState } from "react";
+import { ReadAllOrders } from "@/lib/supabase/dbconfig";
+import accountDetails from "@/actions/getUser";
+import { useRouter } from "next/navigation";
+import Loading from "../Loading";
+import Link from "next/link";
+import ErrorPage from "@/components/pages/error";
 
 function MyOrders() {
-
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [Error, setError] = useState(true);
@@ -26,17 +25,15 @@ function MyOrders() {
             setError(false);
             setOrders(res);
             console.log(orders);
-            setLoading(false); 
-          }
-          else {
+            setLoading(false);
+          } else {
             setError(true);
           }
-        }
-        else {
-          router.push("/login")
+        } else {
+          router.push("/login");
         }
       } catch (error) {
-        console.error('Error fetching orders:', error);
+        console.error("Error fetching orders:", error);
         setLoading(false);
         setError(true);
       }
@@ -45,12 +42,14 @@ function MyOrders() {
     fetchOrders();
   }, []);
 
+  console.log(orders);
+
   if (loading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (Error) {
-    return <ErrorPage />
+    return <ErrorPage />;
   }
 
   return (
@@ -79,30 +78,30 @@ function MyOrders() {
                   <th className="h-12 px-4 align-middle [&:has([role=checkbox])]:pr-0 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     CREATED AT
                   </th>
-                  
                 </tr>
               </thead>
               <tbody className="[&_tr:last-child]:border-0">
-                {orders != [] && orders.map((order) => (
-                  <Link href={`/order?orderid=${order.slug}`}>
-                    <tr key={order.id} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-                      {order.slug}
-                    </td>
-                    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-                      {order.products.map((product) => (
-                        <div key={product.item1.id}>
-                          {product.item1.name}, {product.item2.name}
-                        </div>
-                      ))}
-                    </td>
-                    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-                      {new Date(order.created_at).toLocaleDateString()}
-                    </td>
-                    
-                  </tr>
-                  </Link>
-                ))}
+                {orders != [] &&
+                  orders.map((order) => (
+                    <Link href={`/order?orderid=${order.slug}`} key={order.id}>
+                      <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                        <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+                          {order.slug}
+                        </td>
+                        <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+                          {order.products.map((product) => (
+                            <div key={product.item1.id}>
+                              {product.item1.name}, Size: {product.item1.size},
+                              Color: {product.item1.color}
+                            </div>
+                          ))}
+                        </td>
+                        <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+                          {new Date(order.created_at).toLocaleDateString()}
+                        </td>
+                      </tr>
+                    </Link>
+                  ))}
               </tbody>
             </table>
           </div>
