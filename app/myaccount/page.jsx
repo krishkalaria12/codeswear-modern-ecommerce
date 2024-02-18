@@ -28,8 +28,10 @@ function myAccount() {
   const accountDetails = async () => {
     const data = await authService.getCurrentUser();
     if (data == undefined || data == null) {
-      router.push('/login');
-      toast.error("Login to view your account");
+      toast.success("Log in to view your account");
+      setTimeout(() => {
+        router.push("/login")
+      }, 2100);
     } else {
       setData(data);
     }
@@ -162,7 +164,7 @@ function myAccount() {
   if (data!=undefined || data.length!=0) {
     return (
       <>
-        <ToastContainer />
+        <ToastContainer autoClose={1900} />
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
           <div className="mt-10 sm:w-[100%] flex-col md:flex-col dark:bg-gray-800 p-8 rounded-xl flex">
             <div className="w-full">

@@ -48,7 +48,7 @@ function Checkout() {
         setUserId(data.$id);
       }
       else {
-        setNoItem(true);
+        setUser(false);
       }
     }
     userData();
@@ -70,6 +70,8 @@ function Checkout() {
   const handleSubmitCheckout = async () => {
     if (items.length === 0) {
       toast.error("Your Cart is empty!");
+    } else if (user==false) {
+      toast.error("Login First To checkout!");
     } else if (!isValidPhoneNumber(formData.phoneno)) {
       toast.error("Enter a valid 10 digit phone number");
     } else if (!isValidPostalCode(formData.postalCode)) {

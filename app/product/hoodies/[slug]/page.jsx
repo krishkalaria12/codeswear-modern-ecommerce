@@ -16,6 +16,12 @@ function Product({ params }) {
   const [pin, setPin] = useState();
   const dispatch = useDispatch();
   const [ServiceAvailability, setServiceAvailability] = useState();
+  const [variants, setVariants] = useState({});
+  const [productSlug, setProductSlug] = useState({});
+  const [color, setColor] = useState(undefined);
+  const [size, setSize] = useState(undefined);
+  const [wrongSlug, setWrongSlug] = useState(false);
+  const [loading, setLoading] = useState(true); 
   const { slug } = pathname;
 
   const onchangePin = (e) => {
@@ -52,13 +58,15 @@ function Product({ params }) {
     fetchProductThroughServer();
   }, []);
 
-  const [variants, setVariants] = useState({});
-  const [productSlug, setProductSlug] = useState({});
-  const [color, setColor] = useState(undefined);
-  const [size, setSize] = useState(undefined);
-  const [wrongSlug, setWrongSlug] = useState(false);
-  const [loading, setLoading] = useState(true); 
-
+  
+    if (wrongSlug==true) {
+      return <NotFound />;
+    }
+  
+    if (loading) {
+      return <ProductLoadingSkeleton theme={"light"} />
+    }
+  
   const refreshVariant = (newsize, newcolor) => {
     let url = `/product/hoodies/${variants[newcolor][newsize]["slug"]}`;
     router.push(url);
@@ -97,14 +105,6 @@ function Product({ params }) {
     dispatch(addItem({ product: item }));
     router.push("/checkout");
   };
-
-  if (wrongSlug==true) {
-    return <NotFound />;
-  }
-
-  if (loading) {
-    return <ProductLoadingSkeleton theme={"light"} />
-  }
 
   return (
     <ProductDetails

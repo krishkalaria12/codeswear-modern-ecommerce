@@ -5,11 +5,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Image from "next/image";
 import ButtonForm from "@/components/form/Button";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import authService from '@/lib/appwrite/authConfig'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/navigation'
 import {login} from "@/redux/features/authSlice"
+import accountDetails from "@/actions/getUser";
+import Loading from "../Loading";
 
 function Signup() {
 
@@ -21,6 +23,7 @@ function Signup() {
     password: '',
     confirmpassword: '',
   });
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,6 +72,20 @@ function Signup() {
     }
   };
 
+  useEffect(() => {
+    const userData = async () => {
+      const data = await accountDetails();
+      if (data) {
+        router.push("/")
+      }
+      else{
+        setLoading(false);
+      }
+    }
+    userData();
+  })
+  
+
   const create = async (data) => {
     try {
       const createdUserData = await authService.createAccount({
@@ -81,10 +98,7 @@ function Signup() {
         const currentUserData = await authService.getCurrentUser();
         if (currentUserData) {
           dispatch(login(currentUserData));
-          toast.success("Account created successfully");
-          setTimeout(() => {
-            router.push("/myaccount");
-          }, 2000);
+          router.push("/myaccount")
         }
       }
     } catch (error) {
@@ -93,9 +107,13 @@ function Signup() {
     }
   };  
 
+  if (loading==true) {
+    return <Loading />
+  }
+
   return (
     <>
-    <ToastContainer />
+    <ToastContainer autoClose={1900} />
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <Image

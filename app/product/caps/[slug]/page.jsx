@@ -16,6 +16,12 @@ function Product({ params }) {
   const [pin, setPin] = useState();
   const dispatch = useDispatch();
   const [ServiceAvailability, setServiceAvailability] = useState();
+  const [variants, setVariants] = useState({});
+  const [productSlug, setProductSlug] = useState({});
+  const [color, setColor] = useState(undefined);
+  const [size, setSize] = useState(undefined);
+  const [loading, setLoading] = useState(true);
+  const [wrongSlug, setWrongSlug] = useState(false);
   const { slug } = pathname;
 
   const onchangePin = (e) => {
@@ -50,13 +56,14 @@ function Product({ params }) {
     }
     fetchProductThroughServer();
   }, []);
+  
+  if (wrongSlug==true) {
+    return <NotFound />;
+  }
 
-  const [variants, setVariants] = useState({});
-  const [productSlug, setProductSlug] = useState({});
-  const [color, setColor] = useState(undefined);
-  const [size, setSize] = useState(undefined);
-  const [loading, setLoading] = useState(true);
-  const [wrongSlug, setWrongSlug] = useState(false);
+  if (loading) {
+    return <ProductLoadingSkeleton theme={"light"} />
+  }
 
   const refreshVariant = (newsize, newcolor) => {
     let url = `/product/caps/${variants[newcolor][newsize]["slug"]}`;
@@ -97,13 +104,6 @@ function Product({ params }) {
     router.push("/checkout");
   };
 
-  if (wrongSlug==true) {
-    return <NotFound />;
-  }
-
-  if (loading) {
-    return <ProductLoadingSkeleton theme={"light"} />
-  }
 
   return (
     <ProductDetails

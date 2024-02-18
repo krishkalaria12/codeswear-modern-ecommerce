@@ -16,6 +16,12 @@ function Product({ params }) {
   const [pin, setPin] = useState();
   const dispatch = useDispatch();
   const [ServiceAvailability, setServiceAvailability] = useState();
+  const [variants, setVariants] = useState({});
+  const [productSlug, setProductSlug] = useState({});
+  const [color, setColor] = useState(undefined);
+  const [size, setSize] = useState(undefined);
+  const [loading, setLoading] = useState(true); 
+  const [wrongSlug, setWrongSlug] = useState(false);
   const { slug } = pathname;
 
   const onchangePin = (e) => {
@@ -37,12 +43,17 @@ function Product({ params }) {
       try {
         const slug = params.slug
         const data = await fetchProduct(slug,"sweatshirts");
-        setVariants(data.Variants);
-        setColor(data.Color);
-        setSize(data.Size);
         setWrongSlug(data.wrongSlug);
-        setProductSlug(data.ProductSlug);
-        setLoading(false);
+        if (wrongSlug==false) {
+          setVariants(data.Variants);
+          setColor(data.Color);
+          setSize(data.Size);
+          setProductSlug(data.ProductSlug);
+          setLoading(false);
+        }
+        else {
+          setLoading(false);
+        }
       } catch (error) {
         console.log(error);
         setLoading(false);
@@ -51,18 +62,20 @@ function Product({ params }) {
     fetchProductThroughServer();
   }, []);
 
-  const [variants, setVariants] = useState({});
-  const [productSlug, setProductSlug] = useState({});
-  const [color, setColor] = useState(undefined);
-  const [size, setSize] = useState(undefined);
-  const [loading, setLoading] = useState(true); 
-  const [wrongSlug, setWrongSlug] = useState(false);
+  if (wrongSlug==true) {
+    return <NotFound />
+  }
 
+  if (loading) {
+    return <ProductLoadingSkeleton theme={"light"} />
+  }
+  
+  
   const refreshVariant = (newsize, newcolor) => {
     let url = `/product/sweatshirts/${variants[newcolor][newsize]["slug"]}`;
     router.push(url);
   };
-
+  
   const { slug: ProductSlug, name, Price, discountedPrice, color: ProductColor, size: ProductSize, imageUrl: ProductImageUrl } = productSlug;
 
   const handleCart = () => {
@@ -97,13 +110,6 @@ function Product({ params }) {
     router.push("/checkout");
   };
 
-  if (wrongSlug==true) {
-    return <NotFound />
-  }
-
-  if (loading) {
-    return <ProductLoadingSkeleton theme={"light"} />
-  }
 
   return (
     <ProductDetails

@@ -75,10 +75,7 @@ export default function Component() {
   const handleLogout = async () => {
     await authService.logout();
     dispatch(logout());
-    toast.success("Logged out Successfully")
-    setTimeout(() => {
-      router.push("/login")
-    }, 2000);
+    router.push("/login")
   }
 
   const handleIncreaseQuanity = (item) => {
@@ -91,7 +88,7 @@ export default function Component() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer autoClose={1800} />
       <nav className="bg-[#ffffff] shadow-md dark:bg-[#111827] border-b border-gray-200 dark:border-[#111827] p-2 sticky top-0 z-50">
       <div className="px-4 w-full h-full lg:px-4">
         <div className="flex justify-between w-full items-center">
@@ -107,7 +104,7 @@ export default function Component() {
         </div>
       </div>
     </nav>
-      <MobileFooter handleLoggedInDropdown={handleLoggedInDropdown} handleLogout={handleLogout} isDropDown={isDropDown} status={status} toggleCart={toggleCart} />
+      <MobileFooter ItemCount={ItemCount} handleLoggedInDropdown={handleLoggedInDropdown} handleLogout={handleLogout} isDropDown={isDropDown} status={status} toggleCart={toggleCart} />
       <CartSidebar cartVisible={cartVisible} toggleCart={toggleCart} Items={Items} PriceCount={PriceCount} handleClearCart={handleClearCart} handleDecreaseQuanity={handleDecreaseQuanity} handleIncreaseQuanity={handleIncreaseQuanity} />
     </>
   )

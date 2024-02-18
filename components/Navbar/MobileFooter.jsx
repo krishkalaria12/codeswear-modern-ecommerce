@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { toggleTheme } from "@/redux/features/themeSlice";
 
-const MobileFooter = ({ toggleCart, isDropDown, status, handleLoggedInDropdown, handleLogout }) => {
+const MobileFooter = ({ toggleCart, isDropDown, status, handleLoggedInDropdown, handleLogout, ItemCount }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -27,10 +27,15 @@ const MobileFooter = ({ toggleCart, isDropDown, status, handleLoggedInDropdown, 
           <Link href={"/"}>
             <HomeIcon className="text-[#bd1e59]" />
           </Link>
-          <ShoppingCartIcon
-            onClick={toggleCart}
-            className="text-[#bd1e59] cursor-pointer"
-          />
+          <div className="flex-shrink-0 mr-4 cursor-pointer relative">
+            <ShoppingCartIcon
+              onClick={toggleCart}
+              className="text-[#DB2777] hover:text-[#9B104E] h-8 w-8 dark:text-[#DB2777] dark:hover:text-[#9B104E]"
+            />
+            <span className="absolute top-0 right-0 bg-[#DB2777] text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">
+              {ItemCount}
+            </span>
+          </div>
           <ThemeButton onClick={handleToggleTheme} className="text-[#bd1e59]" />
           <div className="relative inline-block" onClick={handleUserIconClick}>
             <UserIcon className="text-[#bd1e59] cursor-pointer" />

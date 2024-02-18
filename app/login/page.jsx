@@ -3,7 +3,7 @@ import InputForm from "@/components/form/Input";
 import FormFooter from "@/components/form/Footer";
 import Link from "next/link";
 import { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import authService from '@/lib/appwrite/authConfig'
 import { useDispatch } from 'react-redux'
@@ -19,6 +19,7 @@ function Login() {
     email: '',
     password: '',
   });
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,11 +74,28 @@ function Login() {
                 dispatch(login(userData))
                 router.push("/myaccount")
               }
-            toast.success("Logged In successfully")
         }
     } catch (error) {
         toast.error(error.message)
     }
+}
+
+
+useEffect(() => {
+  const userData = async () => {
+    const data = await accountDetails();
+    if (data) {
+      router.push("/")
+    }
+    else{
+      setLoading(false);
+    }
+  }
+  userData();
+})
+
+if (loading==true) {
+  return <Loading />
 }
 
   return (
